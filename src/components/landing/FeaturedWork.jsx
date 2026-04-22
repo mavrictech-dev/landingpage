@@ -18,7 +18,7 @@ const cases = [
     challenge: 'Una empresa de servicios financieros invertía más de 200 horas/mes en reconciliación manual entre CRM, contabilidad y compliance.',
     solution: 'Diseñamos un motor de automatización que conecta sus sistemas internos con reglas de validación inteligentes y flujos sin intervención manual.',
     outcome: '85% de tareas repetitivas eliminadas. Reportes de cumplimiento generados 3x más rápido.',
-    gradient: ['#6D5EF9', '#7C3AED'],
+    gradient: ['#0284C7', '#0891B2'],
   },
   {
     tag: 'ANALÍTICA E INTELIGENCIA ARTIFICIAL',
@@ -26,7 +26,7 @@ const cases = [
     challenge: 'Una empresa de tecnología carecía de herramientas para anticipar la rotación de clientes e identificar oportunidades de crecimiento.',
     solution: 'Implementamos modelos de machine learning para predicción de churn y un panel analítico con recomendaciones accionables para el equipo comercial.',
     outcome: 'Reducción del 22% en churn. Más de $1.2M en oportunidades de upsell detectadas en 6 meses.',
-    gradient: ['#EA580C', '#6D5EF9'],
+    gradient: ['#EA580C', '#0891B2'],
   },
 ];
 

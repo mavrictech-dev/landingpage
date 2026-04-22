@@ -81,7 +81,7 @@ export default function ThemeControlPanel() {
                     onChange={(e) => setHour(parseInt(e.target.value))}
                     className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
                     style={{
-                      background: 'linear-gradient(90deg, #22D3EE, #3B82F6, #8B5CF6, #F97316, #818CF8, #6D5EF9)',
+                      background: 'linear-gradient(90deg, #22D3EE, #3B82F6, #D97706, #EA580C, #3B82F6, #0891B2)',
                     }}
                   />
                 </div>
