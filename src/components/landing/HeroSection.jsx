@@ -45,7 +45,7 @@ function HeroVisual() {
                   className="flex-1 rounded-t"
                   style={{
                     height: `${20 + Math.random() * 70}%`,
-                    background: `linear-gradient(to top, ${theme.accent1}50, ${theme.accent2}25)`,
+                    background: `${theme.accent1}40`,
                   }}
                 />
               ))}
@@ -108,7 +108,7 @@ export default function HeroSection() {
               style={{ color: theme.textPrimary }}
             >
               Software a medida para empresas que buscan{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
+              <span style={{ color: theme.highlightColor }}>
                 crecer con tecnología
               </span>
             </motion.h1>

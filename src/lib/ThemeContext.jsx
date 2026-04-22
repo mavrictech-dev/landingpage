@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 
 const ThemeContext = createContext();
 
-// Piura, Peru timezone: UTC-5
 const PIURA_TZ = 'America/Lima';
 
 const THEMES = {
@@ -11,8 +10,9 @@ const THEMES = {
     isLight: true,
     accent1: '#2563EB',
     accent2: '#0891B2',
-    btnBg: 'linear-gradient(135deg, #2563EB, #0891B2)',
+    btnBg: '#2563EB',
     btnText: '#FFFFFF',
+    highlightColor: '#2563EB',
     glow: 'rgba(37, 99, 235, 0.18)',
     gradientStart: '#E8F0FE',
     gradientMid: '#D4E4FC',
@@ -40,8 +40,9 @@ const THEMES = {
     isLight: true,
     accent1: '#0284C7',
     accent2: '#0EA5E9',
-    btnBg: 'linear-gradient(135deg, #0284C7, #0EA5E9)',
+    btnBg: '#0284C7',
     btnText: '#FFFFFF',
+    highlightColor: '#0284C7',
     glow: 'rgba(2, 132, 199, 0.2)',
     gradientStart: '#F0F9FF',
     gradientMid: '#E0F2FE',
@@ -69,8 +70,9 @@ const THEMES = {
     isLight: true,
     accent1: '#1D7AB8',
     accent2: '#D97706',
-    btnBg: 'linear-gradient(135deg, #1D7AB8, #D97706)',
+    btnBg: '#1D7AB8',
     btnText: '#FFFFFF',
+    highlightColor: '#B45309',
     glow: 'rgba(29, 122, 184, 0.16)',
     gradientStart: '#F5F0E8',
     gradientMid: '#E8E2D8',
@@ -98,8 +100,9 @@ const THEMES = {
     isLight: true,
     accent1: '#C2410C',
     accent2: '#0E7490',
-    btnBg: 'linear-gradient(135deg, #EA580C, #0891B2)',
+    btnBg: '#C2410C',
     btnText: '#FFFFFF',
+    highlightColor: '#C2410C',
     glow: 'rgba(234, 88, 12, 0.18)',
     gradientStart: '#B4C6D6',
     gradientMid: '#E8BFA0',
@@ -127,8 +130,9 @@ const THEMES = {
     isLight: false,
     accent1: '#60A5FA',
     accent2: '#22D3EE',
-    btnBg: 'linear-gradient(135deg, #3B82F6, #06B6D4)',
+    btnBg: '#3B82F6',
     btnText: '#FFFFFF',
+    highlightColor: '#60A5FA',
     glow: 'rgba(59, 130, 246, 0.18)',
     gradientStart: '#0B0E1F',
     gradientMid: '#111738',
@@ -157,8 +161,9 @@ const THEMES = {
     isLight: false,
     accent1: '#60A5FA',
     accent2: '#22D3EE',
-    btnBg: 'linear-gradient(135deg, #2563EB, #0891B2)',
+    btnBg: '#2563EB',
     btnText: '#FFFFFF',
+    highlightColor: '#60A5FA',
     glow: 'rgba(37, 99, 235, 0.2)',
     gradientStart: '#050810',
     gradientMid: '#080D1A',
@@ -185,12 +190,12 @@ const THEMES = {
 };
 
 const CLOUDY_OVERRIDES = {
-  morning: { gradientStart: '#D1D5DB', gradientMid: '#C8CDD5', gradientEnd: '#BFC5CF', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#1F2937', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
-  midday: { gradientStart: '#E5E7EB', gradientMid: '#D1D5DB', gradientEnd: '#C8CDD5', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#111827', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
-  afternoon: { gradientStart: '#D6D3CC', gradientMid: '#CCC8C0', gradientEnd: '#C2BEB6', accent1: '#78716C', accent2: '#92400E', glow: 'rgba(120, 113, 108, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#78716C', cardBg: 'rgba(255,255,255,0.45)', orbOpacity: 0.06, showStars: false },
-  sunset: { gradientStart: '#A8A0A0', gradientMid: '#C4AFA0', gradientEnd: '#CCBAA8', accent1: '#92400E', accent2: '#0E7490', glow: 'rgba(146, 64, 14, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#6B5E54', orbOpacity: 0.08, showStars: false },
-  dusk: { gradientStart: '#0D0F1C', gradientMid: '#121530', gradientEnd: '#161940', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
-  night: { gradientStart: '#060810', gradientMid: '#0A0D18', gradientEnd: '#0D1020', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
+  morning: { gradientStart: '#D1D5DB', gradientMid: '#C8CDD5', gradientEnd: '#BFC5CF', accent1: '#4B5563', accent2: '#6B7280', btnBg: '#4B5563', highlightColor: '#4B5563', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#1F2937', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
+  midday: { gradientStart: '#E5E7EB', gradientMid: '#D1D5DB', gradientEnd: '#C8CDD5', accent1: '#4B5563', accent2: '#6B7280', btnBg: '#4B5563', highlightColor: '#4B5563', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#111827', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
+  afternoon: { gradientStart: '#D6D3CC', gradientMid: '#CCC8C0', gradientEnd: '#C2BEB6', accent1: '#78716C', accent2: '#92400E', btnBg: '#78716C', highlightColor: '#78716C', glow: 'rgba(120, 113, 108, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#78716C', cardBg: 'rgba(255,255,255,0.45)', orbOpacity: 0.06, showStars: false },
+  sunset: { gradientStart: '#A8A0A0', gradientMid: '#C4AFA0', gradientEnd: '#CCBAA8', accent1: '#92400E', accent2: '#0E7490', btnBg: '#92400E', highlightColor: '#92400E', glow: 'rgba(146, 64, 14, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#6B5E54', orbOpacity: 0.08, showStars: false },
+  dusk: { gradientStart: '#0D0F1C', gradientMid: '#121530', gradientEnd: '#161940', accent1: '#6B7280', accent2: '#4B5563', btnBg: '#6B7280', highlightColor: '#6B7280', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
+  night: { gradientStart: '#060810', gradientMid: '#0A0D18', gradientEnd: '#0D1020', accent1: '#6B7280', accent2: '#4B5563', btnBg: '#6B7280', highlightColor: '#6B7280', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
 };
 
 function hourToTheme(hour) {
@@ -198,49 +203,53 @@ function hourToTheme(hour) {
   if (hour >= 12 && hour < 15) return 'midday';
   if (hour >= 15 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 19) return 'sunset';
-  // 19:00+ is dusk/night
   if (hour >= 19 && hour < 21) return 'dusk';
   return 'night';
 }
 
-function getPiuraHour() {
+function getPiuraTime() {
   const now = new Date();
-  const piuraStr = now.toLocaleString('en-US', { timeZone: PIURA_TZ, hour: 'numeric', hour12: false });
-  return parseInt(piuraStr, 10);
+  const str = now.toLocaleString('en-US', { timeZone: PIURA_TZ, hour: 'numeric', minute: 'numeric', hour12: false });
+  const [h, m] = str.split(':').map(Number);
+  return { hour: h, minute: m };
 }
 
-// Fetch Piura weather from open-meteo (free, no key)
 async function fetchPiuraWeather() {
   try {
     const res = await fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=-5.1945&longitude=-80.6328&current=weather_code&timezone=America/Lima'
+      'https://api.open-meteo.com/v1/forecast?latitude=-5.1945&longitude=-80.6328&current=weather_code,temperature_2m&timezone=America/Lima'
     );
     const data = await res.json();
     const code = data?.current?.weather_code;
-    if (code === undefined || code === null) return 'clear';
-    // WMO codes: 0-1 clear, 2-3 cloudy, 45-48 fog, 51+ rain/drizzle/snow
-    if (code <= 1) return 'clear';
-    if (code <= 3 || (code >= 45 && code <= 48)) return 'cloudy';
-    return 'rain';
+    const temp = data?.current?.temperature_2m;
+    let weather = 'clear';
+    if (code !== undefined && code !== null) {
+      if (code <= 1) weather = 'clear';
+      else if (code <= 3 || (code >= 45 && code <= 48)) weather = 'cloudy';
+      else weather = 'rain';
+    }
+    return { weather, temp: temp !== undefined ? Math.round(temp) : null };
   } catch {
-    return 'clear';
+    return { weather: 'clear', temp: null };
   }
 }
 
 export function ThemeProvider({ children }) {
   const [autoTime, setAutoTime] = useState(true);
-  const [manualHour, setManualHour] = useState(getPiuraHour());
+  const [manualHour, setManualHour] = useState(() => getPiuraTime().hour);
   const [weatherMode, setWeatherMode] = useState('clear');
   const [autoWeather, setAutoWeather] = useState(true);
+  const [piuraMinute, setPiuraMinute] = useState(() => getPiuraTime().minute);
+  const [piuraTemp, setPiuraTemp] = useState(null);
 
-  // On mount: fetch Piura weather
   useEffect(() => {
-    fetchPiuraWeather().then(w => {
-      if (autoWeather) setWeatherMode(w);
+    fetchPiuraWeather().then(({ weather, temp }) => {
+      if (autoWeather) setWeatherMode(weather);
+      setPiuraTemp(temp);
     });
   }, []);
 
-  const currentHour = autoTime ? getPiuraHour() : manualHour;
+  const currentHour = autoTime ? getPiuraTime().hour : manualHour;
   const currentThemeName = hourToTheme(currentHour);
 
   const theme = useMemo(() => {
@@ -252,19 +261,25 @@ export function ThemeProvider({ children }) {
     return base;
   }, [currentThemeName, weatherMode]);
 
+  // Update time every 30s
   useEffect(() => {
     if (!autoTime) return;
     const interval = setInterval(() => {
-      setManualHour(getPiuraHour());
-    }, 60000);
+      const t = getPiuraTime();
+      setManualHour(t.hour);
+      setPiuraMinute(t.minute);
+    }, 30000);
     return () => clearInterval(interval);
   }, [autoTime]);
 
-  // Re-fetch weather every 10 min if auto
+  // Re-fetch weather every 10 min
   useEffect(() => {
     if (!autoWeather) return;
     const interval = setInterval(() => {
-      fetchPiuraWeather().then(w => setWeatherMode(w));
+      fetchPiuraWeather().then(({ weather, temp }) => {
+        setWeatherMode(weather);
+        setPiuraTemp(temp);
+      });
     }, 600000);
     return () => clearInterval(interval);
   }, [autoWeather]);
@@ -277,8 +292,13 @@ export function ThemeProvider({ children }) {
   const enableAutoTime = useCallback(() => {
     setAutoTime(true);
     setAutoWeather(true);
-    setManualHour(getPiuraHour());
-    fetchPiuraWeather().then(w => setWeatherMode(w));
+    const t = getPiuraTime();
+    setManualHour(t.hour);
+    setPiuraMinute(t.minute);
+    fetchPiuraWeather().then(({ weather, temp }) => {
+      setWeatherMode(weather);
+      setPiuraTemp(temp);
+    });
   }, []);
 
   const handleSetWeatherMode = useCallback((mode) => {
@@ -293,6 +313,7 @@ export function ThemeProvider({ children }) {
     <ThemeContext.Provider value={{
       theme, currentThemeName, currentHour, autoTime, autoWeather,
       rainMode: isRaining, cloudyMode: isCloudy, weatherMode,
+      piuraMinute, piuraTemp,
       setHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
     }}>
       {children}

@@ -10,7 +10,7 @@ const cases = [
     challenge: 'Una empresa con operaciones distribuidas necesitaba unificar datos de múltiples sedes y eliminar reportes manuales.',
     solution: 'Desarrollamos una plataforma cloud con dashboards en tiempo real, alertas automáticas y vistas personalizadas por rol y sede.',
     outcome: 'Reducción del 40% en tiempos de reporte. Toma de decisiones centralizada y basada en datos.',
-    gradient: ['#2563EB', '#0891B2'],
+    color: '#2563EB',
   },
   {
     tag: 'AUTOMATIZACIÓN EMPRESARIAL',
@@ -18,7 +18,7 @@ const cases = [
     challenge: 'Una empresa de servicios financieros invertía más de 200 horas/mes en reconciliación manual entre CRM, contabilidad y compliance.',
     solution: 'Diseñamos un motor de automatización que conecta sus sistemas internos con reglas de validación inteligentes y flujos sin intervención manual.',
     outcome: '85% de tareas repetitivas eliminadas. Reportes de cumplimiento generados 3x más rápido.',
-    gradient: ['#0284C7', '#0891B2'],
+    color: '#0284C7',
   },
   {
     tag: 'ANALÍTICA E INTELIGENCIA ARTIFICIAL',
@@ -26,7 +26,7 @@ const cases = [
     challenge: 'Una empresa de tecnología carecía de herramientas para anticipar la rotación de clientes e identificar oportunidades de crecimiento.',
     solution: 'Implementamos modelos de machine learning para predicción de churn y un panel analítico con recomendaciones accionables para el equipo comercial.',
     outcome: 'Reducción del 22% en churn. Más de $1.2M en oportunidades de upsell detectadas en 6 meses.',
-    gradient: ['#EA580C', '#0891B2'],
+    color: '#EA580C',
   },
 ];
 
@@ -48,7 +48,7 @@ export default function FeaturedWork() {
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
             Resultados que{' '}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
+            <span style={{ color: theme.highlightColor }}>
               Hablan
             </span>
           </h2>
@@ -75,8 +75,8 @@ export default function FeaturedWork() {
                     <span
                       className="text-[10px] font-mono tracking-widest px-3 py-1 rounded-full"
                       style={{
-                        background: `linear-gradient(135deg, ${c.gradient[0]}15, ${c.gradient[1]}15)`,
-                        color: c.gradient[0],
+                        background: `${c.color}12`,
+                        color: c.color,
                       }}
                     >
                       {c.tag}
@@ -105,13 +105,13 @@ export default function FeaturedWork() {
                 <div className="flex items-center">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ background: `${c.gradient[0]}20` }}
+                    style={{ background: `${c.color}20` }}
                   >
-                    <ArrowUpRight size={16} style={{ color: c.gradient[0] }} />
+                    <ArrowUpRight size={16} style={{ color: c.color }} />
                   </div>
                 </div>
               </div>
-              <div className="h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: `linear-gradient(90deg, ${c.gradient[0]}, ${c.gradient[1]})` }} />
+              <div className="h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: c.color }} />
             </motion.div>
           ))}
         </div>

@@ -28,7 +28,7 @@ export default function FinalCTA() {
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
             ¿Listo para optimizar{' '}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
+            <span style={{ color: theme.highlightColor }}>
               tu operación
             </span>
             ?

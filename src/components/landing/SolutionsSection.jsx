@@ -110,7 +110,7 @@ export default function SolutionsSection() {
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
             Tecnología con{' '}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
+            <span style={{ color: theme.highlightColor }}>
               Propósito
             </span>
           </h2>
