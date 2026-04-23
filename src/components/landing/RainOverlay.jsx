@@ -28,14 +28,14 @@ export default function RainOverlay() {
 
     const windAngle = 0.42;
 
-    dropsRef.current = Array.from({ length: 110 }, () => ({
+    dropsRef.current = Array.from({ length: 105 }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 26 + 14,
+      len: Math.random() * 30 + 16,
       speed: Math.random() * 5.5 + 4,
-      opacity: Math.random() * 0.26 + 0.08,
-      width: Math.random() * 2.4 + 1.0,
-      headR: Math.random() * 2.0 + 1.0,
+      opacity: Math.random() * 0.28 + 0.08,
+      width: Math.random() * 3.0 + 1.2,
+      headR: Math.random() * 2.4 + 1.2,
     }));
 
     const dx = Math.sin(windAngle);
