@@ -29,13 +29,13 @@ export default function RainOverlay() {
     // Wind drift: each drop gets a consistent diagonal offset
     const windAngle = 0.45; // radians (~26°) from vertical
 
-    dropsRef.current = Array.from({ length: 140 }, () => ({
+    dropsRef.current = Array.from({ length: 130 }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 30 + 14,
+      len: Math.random() * 34 + 16,
       speed: Math.random() * 7 + 5,
-      opacity: Math.random() * 0.3 + 0.1,
-      width: Math.random() * 1.6 + 0.5,
+      opacity: Math.random() * 0.28 + 0.1,
+      width: Math.random() * 2.0 + 0.6,
     }));
 
     const draw = () => {

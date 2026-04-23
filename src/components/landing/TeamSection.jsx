@@ -7,29 +7,29 @@ const team = [
     name: 'Carlos Méndez',
     role: 'CEO & Co-Founder',
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 12 años de experiencia en soluciones tecnológicas empresariales.',
-    avatar: 'CM',
     color: '#2563EB',
+    gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 40%, #0891B2 70%, #1E3A5F 100%)',
   },
   {
     name: 'Lucía Torres',
     role: 'CTO',
     desc: 'Arquitecta de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
-    avatar: 'LT',
     color: '#0891B2',
+    gradient: 'linear-gradient(135deg, #164E63 0%, #0891B2 35%, #7C3AED 70%, #164E63 100%)',
   },
   {
     name: 'Andrés Ruiz',
     role: 'Lead Developer',
     desc: 'Full-stack developer especializado en automatización de procesos y desarrollo de APIs de alto rendimiento.',
-    avatar: 'AR',
     color: '#7C3AED',
+    gradient: 'linear-gradient(135deg, #312E81 0%, #7C3AED 40%, #2563EB 70%, #312E81 100%)',
   },
   {
     name: 'Valentina Flores',
     role: 'Head of Design',
     desc: 'Diseñadora UX/UI con pasión por crear interfaces elegantes, intuitivas y centradas en la experiencia del usuario.',
-    avatar: 'VF',
     color: '#EA580C',
+    gradient: 'linear-gradient(135deg, #7C2D12 0%, #EA580C 35%, #F59E0B 70%, #7C2D12 100%)',
   },
 ];
 
@@ -53,37 +53,54 @@ function TeamCard({ member, index }) {
         backdropFilter: 'blur(20px)',
         boxShadow: theme.isLight
           ? '0 4px 24px rgba(0,0,0,0.04)'
-          : `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)`,
+          : '0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)',
       }}
     >
-      <div className="p-6">
-        {/* Avatar */}
-        <div className="flex items-center gap-4 mb-4">
-          <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-heading font-bold text-lg"
-            style={{
-              background: `linear-gradient(135deg, ${member.color}, ${member.color}CC)`,
-              boxShadow: `0 0 20px ${member.color}30`,
-            }}
-          >
-            {member.avatar}
-          </div>
-          <div>
-            <h3
-              className="font-heading font-semibold text-base transition-colors duration-700"
-              style={{ color: theme.textPrimary }}
-            >
-              {member.name}
-            </h3>
-            <span
-              className="text-xs font-mono tracking-wider"
-              style={{ color: member.color }}
-            >
-              {member.role}
-            </span>
-          </div>
-        </div>
+      {/* Blurred gradient placeholder — replaces photo area */}
+      <div
+        className="relative h-32 overflow-hidden"
+        style={{ background: member.gradient }}
+      >
+        {/* Blur overlay for soft diffused look */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: 'blur(40px)',
+            background: theme.isLight
+              ? 'rgba(255,255,255,0.15)'
+              : 'rgba(0,0,0,0.15)',
+          }}
+        />
+        {/* Soft orb accent */}
+        <div
+          className="absolute w-28 h-28 rounded-full blur-[50px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: member.color,
+            opacity: 0.4,
+          }}
+        />
+        {/* Subtle inner glow edge */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg, transparent 50%, ${theme.isLight ? 'rgba(255,255,255,0.5)' : 'rgba(10,16,32,0.6)'} 100%)`,
+          }}
+        />
+      </div>
 
+      <div className="p-5">
+        <h3
+          className="font-heading font-semibold text-base mb-0.5 transition-colors duration-700"
+          style={{ color: theme.textPrimary }}
+        >
+          {member.name}
+        </h3>
+        <span
+          className="text-xs font-mono tracking-wider block mb-3"
+          style={{ color: member.color }}
+        >
+          {member.role}
+        </span>
         <p
           className="text-sm leading-relaxed transition-colors duration-700"
           style={{ color: theme.textMuted }}

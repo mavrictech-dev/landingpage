@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { Sun, Cloud, CloudRain, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sun, Moon, Cloud, CloudRain, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 
 const timeLabels = [
   { hour: 8, label: 'Mañana' },
@@ -12,25 +12,64 @@ const timeLabels = [
   { hour: 22, label: 'Noche' },
 ];
 
-const weatherLabels = { clear: 'Despejado', cloudy: 'Nublado', rain: 'Lluvia' };
-const WeatherIcon = ({ mode, size = 10, style }) => {
-  if (mode === 'rain') return <CloudRain size={size} style={style} />;
-  if (mode === 'cloudy') return <Cloud size={size} style={style} />;
-  return <Sun size={size} style={style} />;
-};
+function getWeatherVisual(weatherMode, isNight) {
+  if (weatherMode === 'rain') {
+    return {
+      Icon: CloudRain,
+      label: 'Lluvia',
+      accentColor: '#64748B',
+      glowColor: 'rgba(100, 116, 139, 0.25)',
+      gradientBg: isNight
+        ? 'linear-gradient(135deg, rgba(30,41,59,0.5) 0%, rgba(51,65,85,0.3) 100%)'
+        : 'linear-gradient(135deg, rgba(148,163,184,0.3) 0%, rgba(100,116,139,0.2) 100%)',
+      iconSize: 18,
+    };
+  }
+  if (weatherMode === 'cloudy') {
+    return {
+      Icon: Cloud,
+      label: 'Nublado',
+      accentColor: '#94A3B8',
+      glowColor: 'rgba(148, 163, 184, 0.2)',
+      gradientBg: isNight
+        ? 'linear-gradient(135deg, rgba(30,41,59,0.4) 0%, rgba(71,85,105,0.25) 100%)'
+        : 'linear-gradient(135deg, rgba(203,213,225,0.35) 0%, rgba(148,163,184,0.2) 100%)',
+      iconSize: 18,
+    };
+  }
+  // clear
+  if (isNight) {
+    return {
+      Icon: Moon,
+      label: 'Despejado',
+      accentColor: '#A5B4FC',
+      glowColor: 'rgba(165, 180, 252, 0.2)',
+      gradientBg: 'linear-gradient(135deg, rgba(30,27,75,0.4) 0%, rgba(55,48,163,0.2) 100%)',
+      iconSize: 18,
+    };
+  }
+  return {
+    Icon: Sun,
+    label: 'Despejado',
+    accentColor: '#F59E0B',
+    glowColor: 'rgba(245, 158, 11, 0.18)',
+    gradientBg: 'linear-gradient(135deg, rgba(254,243,199,0.35) 0%, rgba(253,224,71,0.15) 100%)',
+    iconSize: 18,
+  };
+}
 
 export default function ThemeControlPanel() {
   const { currentHour, piuraMinute, piuraTemp, autoTime, autoWeather, weatherMode, setHour, enableAutoTime, setWeatherMode, theme } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
 
-  // Close on click outside
+  const isNight = currentHour >= 19 || currentHour < 6;
+  const visual = getWeatherVisual(weatherMode, isNight);
+
   useEffect(() => {
     if (!open) return;
     const handler = (e) => {
-      if (panelRef.current && !panelRef.current.contains(e.target)) {
-        setOpen(false);
-      }
+      if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false);
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -43,7 +82,7 @@ export default function ThemeControlPanel() {
   const timeStr = `${String(currentHour).padStart(2, '0')}:${String(piuraMinute).padStart(2, '0')}`;
 
   const weatherOptions = [
-    { key: 'clear', label: 'Despejado', icon: Sun },
+    { key: 'clear', label: 'Despejado', icon: isNight ? Moon : Sun },
     { key: 'cloudy', label: 'Nublado', icon: Cloud },
     { key: 'rain', label: 'Lluvia', icon: CloudRain },
   ];
@@ -58,7 +97,6 @@ export default function ThemeControlPanel() {
     >
       <AnimatePresence mode="wait">
         {!open ? (
-          /* Compact card */
           <motion.button
             key="compact"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -66,67 +104,116 @@ export default function ThemeControlPanel() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.25 }}
             onClick={() => setOpen(true)}
-            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all duration-700 cursor-pointer hover:scale-[1.02]"
+            className="relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all duration-700 cursor-pointer hover:scale-[1.02] overflow-hidden"
             style={{
-              background: theme.panelBg,
-              borderColor: theme.panelBorder,
-              backdropFilter: 'blur(20px)',
-              boxShadow: theme.isLight ? '0 4px 20px rgba(0,0,0,0.06)' : '0 4px 20px rgba(0,0,0,0.35)',
+              background: theme.isLight
+                ? 'rgba(255, 255, 255, 0.55)'
+                : 'rgba(10, 16, 32, 0.65)',
+              borderColor: theme.isLight
+                ? 'rgba(15, 23, 42, 0.08)'
+                : 'rgba(248, 250, 252, 0.08)',
+              backdropFilter: 'blur(24px)',
+              boxShadow: `0 4px 20px rgba(0,0,0,${theme.isLight ? '0.06' : '0.35'}), 0 0 20px ${visual.glowColor}`,
             }}
           >
-            <div className="flex flex-col items-start gap-0.5">
-              <div className="flex items-center gap-1.5">
-                <MapPin size={9} style={{ color: theme.textMuted }} />
-                <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                  Castilla, Piura
-                </span>
+            {/* Weather gradient accent */}
+            <div
+              className="absolute inset-0 transition-all duration-1000"
+              style={{ background: visual.gradientBg }}
+            />
+
+            <div className="relative flex items-center gap-3">
+              {/* Weather icon with glow */}
+              <div className="relative">
+                <visual.Icon
+                  size={visual.iconSize}
+                  style={{ color: visual.accentColor }}
+                  className="relative z-10"
+                />
+                <div
+                  className="absolute inset-0 blur-[8px] -m-1"
+                  style={{ background: visual.glowColor, borderRadius: '50%' }}
+                />
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
-                  {timeStr}
-                </span>
-                {piuraTemp !== null && (
-                  <span className="text-[10px] font-mono" style={{ color: theme.textMuted }}>
-                    {piuraTemp}°C
+
+              <div className="flex flex-col items-start gap-0.5">
+                <div className="flex items-center gap-1.5">
+                  <MapPin size={8} style={{ color: theme.textMuted }} />
+                  <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
+                    Castilla, Piura
                   </span>
-                )}
-                <WeatherIcon mode={weatherMode} size={11} style={{ color: theme.accent1 }} />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
+                    {timeStr}
+                  </span>
+                  {piuraTemp !== null && (
+                    <span className="text-[10px] font-mono" style={{ color: theme.textMuted }}>
+                      {piuraTemp}°C
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
-            <ChevronDown size={10} style={{ color: theme.textMuted }} />
+
+            <ChevronDown size={10} className="relative" style={{ color: theme.textMuted }} />
           </motion.button>
         ) : (
-          /* Expanded panel */
           <motion.div
             key="expanded"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="rounded-2xl border overflow-hidden transition-all duration-700"
+            className="relative rounded-2xl border overflow-hidden transition-all duration-700"
             style={{
-              background: theme.panelBg,
-              borderColor: theme.panelBorder,
-              backdropFilter: 'blur(24px)',
-              boxShadow: theme.isLight ? '0 8px 32px rgba(0,0,0,0.08)' : '0 8px 32px rgba(0,0,0,0.4)',
+              background: theme.isLight
+                ? 'rgba(255, 255, 255, 0.6)'
+                : 'rgba(10, 16, 32, 0.7)',
+              borderColor: theme.isLight
+                ? 'rgba(15, 23, 42, 0.08)'
+                : 'rgba(248, 250, 252, 0.08)',
+              backdropFilter: 'blur(28px)',
+              boxShadow: `0 8px 32px rgba(0,0,0,${theme.isLight ? '0.08' : '0.4'}), 0 0 24px ${visual.glowColor}`,
             }}
           >
+            {/* Top gradient accent strip */}
+            <div
+              className="absolute top-0 left-0 right-0 h-16 transition-all duration-1000"
+              style={{ background: visual.gradientBg, opacity: 0.7 }}
+            />
+
             {/* Header */}
             <button
-              className="w-full flex items-center justify-between px-4 py-3 transition-colors"
+              className="relative w-full flex items-center justify-between px-4 py-3 transition-colors"
               onClick={() => setOpen(false)}
             >
-              <div className="flex items-center gap-2">
-                <MapPin size={10} style={{ color: theme.accent1 }} />
-                <span className="text-[11px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                  Castilla, Piura · {timeStr}
-                  {piuraTemp !== null && ` · ${piuraTemp}°C`}
-                </span>
+              <div className="flex items-center gap-2.5">
+                <div className="relative">
+                  <visual.Icon size={16} style={{ color: visual.accentColor }} />
+                  <div
+                    className="absolute inset-0 blur-[6px] -m-0.5"
+                    style={{ background: visual.glowColor, borderRadius: '50%' }}
+                  />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
+                    Castilla, Piura · {visual.label}
+                  </span>
+                  <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
+                    {timeStr}
+                    {piuraTemp !== null && (
+                      <span className="text-[10px] font-mono font-normal ml-2" style={{ color: theme.textMuted }}>
+                        {piuraTemp}°C
+                      </span>
+                    )}
+                  </span>
+                </div>
               </div>
               <ChevronUp size={12} style={{ color: theme.textMuted }} />
             </button>
 
-            <div className="px-4 pb-4 space-y-4">
+            <div className="relative px-4 pb-4 space-y-4">
               {/* Time slider */}
               <div>
                 <div className="flex justify-between text-[10px] font-mono mb-2" style={{ color: theme.textMuted }}>
@@ -162,7 +249,7 @@ export default function ThemeControlPanel() {
                       onClick={() => setHour(t.hour)}
                       className="text-[9px] font-mono tracking-wider py-1.5 rounded-lg border transition-all duration-300"
                       style={{
-                        borderColor: isActive ? `${theme.accent1}50` : theme.panelBorder,
+                        borderColor: isActive ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
                         color: isActive ? theme.accent1 : theme.textMuted,
                         background: isActive ? `${theme.accent1}10` : 'transparent',
                       }}
@@ -179,7 +266,7 @@ export default function ThemeControlPanel() {
                   onClick={enableAutoTime}
                   className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                   style={{
-                    borderColor: (autoTime && autoWeather) ? `${theme.accent1}50` : theme.panelBorder,
+                    borderColor: (autoTime && autoWeather) ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
                     color: (autoTime && autoWeather) ? theme.accent1 : theme.textMuted,
                     background: (autoTime && autoWeather) ? `${theme.accent1}10` : 'transparent',
                   }}
@@ -195,7 +282,7 @@ export default function ThemeControlPanel() {
                         onClick={() => setWeatherMode(w.key)}
                         className="flex items-center justify-center gap-1 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                         style={{
-                          borderColor: isActive ? `${theme.accent1}50` : theme.panelBorder,
+                          borderColor: isActive ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
                           color: isActive ? theme.accent1 : theme.textMuted,
                           background: isActive ? `${theme.accent1}10` : 'transparent',
                         }}
