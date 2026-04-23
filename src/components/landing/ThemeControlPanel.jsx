@@ -78,7 +78,7 @@ export default function ThemeControlPanel() {
               <div className="flex items-center gap-1.5">
                 <MapPin size={9} style={{ color: theme.textMuted }} />
                 <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                  Piura, Perú
+                  Castilla, Piura
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export default function ThemeControlPanel() {
               <div className="flex items-center gap-2">
                 <MapPin size={10} style={{ color: theme.accent1 }} />
                 <span className="text-[11px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                  Piura, Perú · {timeStr}
+                  Castilla, Piura · {timeStr}
                   {piuraTemp !== null && ` · ${piuraTemp}°C`}
                 </span>
               </div>
@@ -184,7 +184,7 @@ export default function ThemeControlPanel() {
                     background: (autoTime && autoWeather) ? `${theme.accent1}10` : 'transparent',
                   }}
                 >
-                  <Clock size={10} /> Auto (Piura)
+                  <Clock size={10} /> Auto (Castilla)
                 </button>
                 <div className="grid grid-cols-3 gap-1.5">
                   {weatherOptions.map(w => {
