@@ -37,8 +37,8 @@ export default function ProjectModal({ project, onClose }) {
           transition={{ duration: 0.35, ease: 'easeOut' }}
           style={{
             background: theme.isLight
-              ? 'rgba(255, 255, 255, 0.85)'
-              : 'rgba(10, 16, 32, 0.92)',
+              ? 'rgba(255, 255, 255, 0.88)'
+              : 'rgba(10, 16, 32, 0.94)',
             borderColor: theme.isLight
               ? 'rgba(15, 23, 42, 0.1)'
               : 'rgba(248, 250, 252, 0.08)',
@@ -60,80 +60,82 @@ export default function ProjectModal({ project, onClose }) {
             <X size={16} />
           </button>
 
-          {/* Image gallery */}
-          {images.length > 0 && (
-            <div className="grid md:grid-cols-[1fr_200px] gap-3 p-5 pb-0">
-              {/* Main image */}
+          {/* 1. Title first */}
+          <div className="p-5 md:p-6 pb-0">
+            <span
+              className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded-full mb-3 inline-block"
+              style={{
+                background: `${project.color}15`,
+                color: project.color,
+              }}
+            >
+              {project.tag}
+            </span>
+            <h2
+              className="text-2xl md:text-3xl font-heading font-bold mt-2 transition-colors duration-700"
+              style={{ color: theme.textPrimary }}
+            >
+              {project.title}
+            </h2>
+            {project.impact && (
               <div
-                className="rounded-xl overflow-hidden aspect-[16/10]"
+                className="mt-1.5 text-lg font-heading font-semibold"
+                style={{ color: project.color }}
+              >
+                {project.impact}
+              </div>
+            )}
+          </div>
+
+          {/* 2. Image gallery — main + masonry thumbnails */}
+          {images.length > 0 && (
+            <div className="grid md:grid-cols-[1fr_180px] gap-2.5 p-5 md:px-6">
+              {/* Main image — cropped tighter */}
+              <div
+                className="rounded-xl overflow-hidden"
                 style={{
-                  background: theme.isLight
-                    ? 'rgba(0,0,0,0.04)'
-                    : 'rgba(255,255,255,0.04)',
+                  background: theme.isLight ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.04)',
                 }}
               >
                 <img
                   src={mainImg}
                   alt={project.title}
                   className="w-full h-full object-cover transition-all duration-500"
+                  style={{ aspectRatio: '16/9', objectPosition: 'center 30%' }}
                 />
               </div>
 
-              {/* Thumbnails masonry */}
+              {/* Masonry / brick thumbnails on right */}
               <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
-                {images.map((img, i) => (
-                  <button
-                    key={i}
-                    onMouseEnter={() => setActiveImg(i)}
-                    onClick={() => setActiveImg(i)}
-                    className="flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300"
-                    style={{
-                      borderColor: activeImg === i ? theme.accent1 : 'transparent',
-                      opacity: activeImg === i ? 1 : 0.6,
-                      width: 'auto',
-                      height: 'auto',
-                    }}
-                  >
-                    <img
-                      src={img}
-                      alt={`${project.title} ${i + 1}`}
-                      className="w-20 h-14 md:w-full md:h-20 object-cover"
-                    />
-                  </button>
-                ))}
+                {images.map((img, i) => {
+                  const isActive = activeImg === i;
+                  // Alternate heights for masonry effect
+                  const heightClass = i % 2 === 0 ? 'md:h-24' : 'md:h-[72px]';
+                  return (
+                    <button
+                      key={i}
+                      onMouseEnter={() => setActiveImg(i)}
+                      onClick={() => setActiveImg(i)}
+                      className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300 ${heightClass}`}
+                      style={{
+                        borderColor: isActive ? theme.accent1 : 'transparent',
+                        opacity: isActive ? 1 : 0.55,
+                      }}
+                    >
+                      <img
+                        src={img}
+                        alt={`${project.title} ${i + 1}`}
+                        className="w-20 h-14 md:w-full md:h-full object-cover"
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {/* Content */}
-          <div className="p-5 md:p-6 space-y-5">
-            {/* Header */}
-            <div>
-              <span
-                className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded-full mb-3 inline-block"
-                style={{
-                  background: `${project.color}15`,
-                  color: project.color,
-                }}
-              >
-                {project.tag}
-              </span>
-              <h2
-                className="text-2xl md:text-3xl font-heading font-bold mt-2 transition-colors duration-700"
-                style={{ color: theme.textPrimary }}
-              >
-                {project.title}
-              </h2>
-              {project.impact && (
-                <div
-                  className="mt-2 text-lg font-heading font-semibold"
-                  style={{ color: project.color }}
-                >
-                  {project.impact}
-                </div>
-              )}
-            </div>
-
+          {/* 3. Description and details below images */}
+          <div className="p-5 md:px-6 md:pb-6 pt-0 space-y-5">
             {/* Full description */}
             <div>
               <h4

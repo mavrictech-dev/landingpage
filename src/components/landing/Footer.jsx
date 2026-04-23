@@ -1,12 +1,66 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTheme } from '@/lib/ThemeContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Footer() {
-  const { theme } = useTheme();
+function FooterRainEffect() {
+  const ripples = useMemo(() =>
+    Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      left: 5 + Math.random() * 90,
+      delay: Math.random() * 4,
+      duration: 2.5 + Math.random() * 1.5,
+      size: 3 + Math.random() * 4,
+    })), []
+  );
 
   return (
-    <footer className="relative py-16 px-6 border-t transition-colors duration-700" style={{ borderColor: theme.footerBorder }}>
-      <div className="max-w-7xl mx-auto">
+    <div className="absolute top-0 left-0 right-0 h-px overflow-visible pointer-events-none">
+      {ripples.map(r => (
+        <motion.div
+          key={r.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${r.left}%`,
+            top: -1,
+            width: r.size,
+            height: r.size * 0.4,
+            background: 'rgba(148, 194, 255, 0.35)',
+            boxShadow: '0 0 6px rgba(148, 194, 255, 0.2)',
+          }}
+          animate={{
+            scale: [0, 2.5, 4],
+            opacity: [0.6, 0.3, 0],
+          }}
+          transition={{
+            duration: r.duration,
+            delay: r.delay,
+            repeat: Infinity,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default function Footer() {
+  const { theme, rainMode } = useTheme();
+
+  const solidBg = theme.isLight ? '#E1EAF5' : '#070B14';
+
+  return (
+    <footer
+      className="relative py-16 px-6 border-t transition-colors duration-700"
+      style={{
+        borderColor: theme.isLight ? 'rgba(15,23,42,0.1)' : 'rgba(248,250,252,0.06)',
+        background: solidBg,
+      }}
+    >
+      <AnimatePresence>
+        {rainMode && <FooterRainEffect />}
+      </AnimatePresence>
+
+      <div className="max-w-7xl mx-auto relative">
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -64,7 +118,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-700" style={{ borderColor: theme.footerBorder }}>
+        <div className="mt-16 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-700" style={{ borderColor: theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.05)' }}>
           <p className="text-xs transition-colors duration-700" style={{ color: theme.textMuted }}>
             © {new Date().getFullYear()} Mavric Technologies. Todos los derechos reservados.
           </p>

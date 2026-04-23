@@ -26,46 +26,62 @@ export default function RainOverlay() {
     };
     window.addEventListener('resize', resize);
 
-    // Wind drift: each drop gets a consistent diagonal offset
-    const windAngle = 0.45; // radians (~26°) from vertical
+    const windAngle = 0.45; // radians (~26°) diagonal
 
-    dropsRef.current = Array.from({ length: 130 }, () => ({
+    dropsRef.current = Array.from({ length: 120 }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 34 + 16,
-      speed: Math.random() * 7 + 5,
-      opacity: Math.random() * 0.28 + 0.1,
-      width: Math.random() * 2.0 + 0.6,
+      len: Math.random() * 22 + 10,
+      speed: Math.random() * 6 + 4.5,
+      opacity: Math.random() * 0.28 + 0.08,
+      width: Math.random() * 2.2 + 0.8,
+      // Droplet head radius — makes it look like a raindrop
+      headR: Math.random() * 1.6 + 0.8,
     }));
+
+    const dx = Math.sin(windAngle);
+    const dy = Math.cos(windAngle);
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
 
-      const dx = Math.sin(windAngle);
-      const dy = Math.cos(windAngle);
-
       dropsRef.current.forEach(drop => {
-        const endX = drop.x + dx * drop.len;
-        const endY = drop.y + dy * drop.len;
+        const tailX = drop.x + dx * drop.len;
+        const tailY = drop.y + dy * drop.len;
 
-        // Main drop line
-        ctx.beginPath();
-        ctx.strokeStyle = theme.rainColor;
-        ctx.lineWidth = drop.width;
+        // Tapered streak — thicker at head, thinner at tail
+        ctx.save();
         ctx.globalAlpha = drop.opacity;
-        ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
 
-        // Subtle highlight streak
+        // Draw tapered body using a triangle path
+        const perpX = dy * drop.width * 0.5;
+        const perpY = -dx * drop.width * 0.5;
+
         ctx.beginPath();
-        ctx.strokeStyle = theme.rainHighlight || 'rgba(255,255,255,0.08)';
-        ctx.lineWidth = drop.width * 0.4;
-        ctx.globalAlpha = drop.opacity * 0.35;
-        ctx.moveTo(drop.x + 0.6, drop.y + 2);
-        ctx.lineTo(drop.x + dx * drop.len * 0.5 + 0.6, drop.y + dy * drop.len * 0.5 + 2);
-        ctx.stroke();
+        ctx.moveTo(drop.x - perpX, drop.y - perpY);
+        ctx.lineTo(drop.x + perpX, drop.y + perpY);
+        ctx.lineTo(tailX, tailY);
+        ctx.closePath();
+        ctx.fillStyle = theme.rainColor;
+        ctx.fill();
 
+        // Rounded droplet head
+        ctx.beginPath();
+        ctx.arc(drop.x, drop.y, drop.headR, 0, Math.PI * 2);
+        ctx.fillStyle = theme.rainColor;
+        ctx.globalAlpha = drop.opacity * 1.2;
+        ctx.fill();
+
+        // Subtle highlight on head
+        ctx.beginPath();
+        ctx.arc(drop.x - drop.headR * 0.25, drop.y - drop.headR * 0.25, drop.headR * 0.45, 0, Math.PI * 2);
+        ctx.fillStyle = theme.rainHighlight || 'rgba(255,255,255,0.15)';
+        ctx.globalAlpha = drop.opacity * 0.5;
+        ctx.fill();
+
+        ctx.restore();
+
+        // Move
         drop.y += drop.speed * dy;
         drop.x += drop.speed * dx;
         if (drop.y > h || drop.x > w + 100) {
@@ -73,7 +89,7 @@ export default function RainOverlay() {
           drop.x = Math.random() * (w + 200) - 200;
         }
       });
-      ctx.globalAlpha = 1;
+
       animRef.current = requestAnimationFrame(draw);
     };
 
