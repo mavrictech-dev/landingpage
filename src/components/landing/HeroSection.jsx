@@ -1,10 +1,11 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 
 function HeroVisual() {
   const { theme } = useTheme();
+  const prefersReducedMotion = useReducedMotion();
   return (
     <div className="relative w-full max-w-lg mx-auto lg:mx-0">
       <motion.div
@@ -13,10 +14,10 @@ function HeroVisual() {
           background: theme.cardBg,
           borderColor: theme.cardBorder,
           boxShadow: `0 0 80px ${theme.glow}, 0 20px 60px rgba(0,0,0,${theme.isLight ? '0.08' : '0.5'})`,
-          backdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(12px)',
         }}
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        animate={prefersReducedMotion ? { y: 0 } : { y: [0, -10, 0] }}
+        transition={prefersReducedMotion ? { duration: 0.2 } : { duration: 6, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="flex items-center gap-2 px-4 py-3 border-b transition-colors duration-700" style={{ borderColor: theme.cardBorder }}>
           <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
@@ -59,11 +60,11 @@ function HeroVisual() {
         style={{
           background: theme.cardBg,
           borderColor: theme.cardBorder,
-          backdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(12px)',
           boxShadow: `0 0 40px ${theme.glow}`,
         }}
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        animate={prefersReducedMotion ? { y: 0 } : { y: [0, -8, 0] }}
+        transition={prefersReducedMotion ? { duration: 0.2 } : { duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       >
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${theme.accent1}20` }}>
@@ -150,7 +151,7 @@ export default function HeroSection() {
                   color: theme.textSecondary,
                   borderColor: theme.cardBorder,
                   background: `${theme.cardBg}`,
-                  backdropFilter: 'blur(8px)',
+                  backdropFilter: 'blur(6px)',
                 }}
               >
                 Ver Soluciones

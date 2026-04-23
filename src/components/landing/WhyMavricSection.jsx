@@ -16,7 +16,11 @@ export default function WhyMavricSection() {
   const { theme } = useTheme();
 
   return (
-    <section id="why-mavric" className="relative py-24 px-6">
+    <section
+      id="why-mavric"
+      className="relative py-24 px-6"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '900px' }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -57,7 +61,7 @@ export default function WhyMavricSection() {
                   borderColor: theme.isLight
                     ? 'rgba(15, 23, 42, 0.08)'
                     : 'rgba(248, 250, 252, 0.07)',
-                  backdropFilter: 'blur(20px)',
+                  backdropFilter: 'blur(12px)',
                   boxShadow: theme.isLight
                     ? '0 2px 16px rgba(0,0,0,0.03)'
                     : '0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)',

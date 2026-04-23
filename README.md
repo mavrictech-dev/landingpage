@@ -1,39 +1,31 @@
-**Welcome to your Base44 project** 
+# Mavric Website
 
-**About**
+Proyecto frontend con Vite + React para ejecucion local.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Requisitos
 
-This project contains everything you need to run your app locally.
+1. Node.js 18+ recomendado
+2. npm
 
-**Edit the code in your local development environment**
+## Desarrollo local
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+1. Instalar dependencias:
 
-**Prerequisites:** 
-
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+npm install
 ```
 
-Run the app: `npm run dev`
+2. Ejecutar entorno de desarrollo:
 
-**Publish your changes**
+```bash
+npm run dev
+```
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+3. Abrir en el navegador la URL que imprime Vite en consola (normalmente `http://localhost:5173`).
 
-**Docs & Support**
+## Scripts utiles
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+- `npm run dev`: servidor de desarrollo
+- `npm run build`: build de produccion
+- `npm run preview`: previsualiza el build
+- `npm run lint`: analiza el codigo

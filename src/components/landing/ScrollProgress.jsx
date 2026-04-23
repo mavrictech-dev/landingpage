@@ -17,19 +17,30 @@ export default function ScrollProgress() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    const onScroll = () => {
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(total > 0 ? window.scrollY / total : 0);
+    let ticking = false;
+    const sectionEls = sections.map(({ id, label }) => ({ id, label, el: document.getElementById(id) }));
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i].id);
-        if (el && el.getBoundingClientRect().top <= 200) {
-          setActiveSection(sections[i].label);
-          break;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(total > 0 ? window.scrollY / total : 0);
+
+        for (let i = sectionEls.length - 1; i >= 0; i--) {
+          const section = sectionEls[i];
+          if (section.el && section.el.getBoundingClientRect().top <= 200) {
+            setActiveSection(section.label);
+            break;
+          }
         }
-      }
+        ticking = false;
+      });
     };
-    window.addEventListener('scroll', onScroll);
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 

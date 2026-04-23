@@ -245,8 +245,7 @@ async function fetchPiuraWeather() {
 }
 
 export function ThemeProvider({ children }) {
-  const [autoTime, setAutoTime] = useState(true);
-  const [manualHour, setManualHour] = useState(() => getPiuraTime().hour);
+  const [themePreviewHour, setThemePreviewHour] = useState(null);
   const [weatherMode, setWeatherMode] = useState('clear');
   const [autoWeather, setAutoWeather] = useState(true);
   const [piuraMinute, setPiuraMinute] = useState(() => getPiuraTime().minute);
@@ -259,8 +258,9 @@ export function ThemeProvider({ children }) {
     });
   }, []);
 
-  const currentHour = autoTime ? getPiuraTime().hour : manualHour;
-  const currentThemeName = hourToTheme(currentHour);
+  const currentHour = getPiuraTime().hour;
+  const effectiveThemeHour = themePreviewHour ?? currentHour;
+  const currentThemeName = hourToTheme(effectiveThemeHour);
 
   const theme = useMemo(() => {
     let base = { ...THEMES[currentThemeName] };
@@ -273,14 +273,12 @@ export function ThemeProvider({ children }) {
 
   // Update time every 30s
   useEffect(() => {
-    if (!autoTime) return;
     const interval = setInterval(() => {
       const t = getPiuraTime();
-      setManualHour(t.hour);
       setPiuraMinute(t.minute);
     }, 30000);
     return () => clearInterval(interval);
-  }, [autoTime]);
+  }, []);
 
   // Re-fetch weather every 10 min
   useEffect(() => {
@@ -294,16 +292,10 @@ export function ThemeProvider({ children }) {
     return () => clearInterval(interval);
   }, [autoWeather]);
 
-  const setHour = useCallback((h) => {
-    setAutoTime(false);
-    setManualHour(h);
-  }, []);
-
   const enableAutoTime = useCallback(() => {
-    setAutoTime(true);
     setAutoWeather(true);
+    setThemePreviewHour(null);
     const t = getPiuraTime();
-    setManualHour(t.hour);
     setPiuraMinute(t.minute);
     fetchPiuraWeather().then(({ weather, temp }) => {
       setWeatherMode(weather);
@@ -321,10 +313,11 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{
-      theme, currentThemeName, currentHour, autoTime, autoWeather,
+      theme, currentThemeName, currentHour, autoWeather,
+      themePreviewHour,
       rainMode: isRaining, cloudyMode: isCloudy, weatherMode,
       piuraMinute, piuraTemp,
-      setHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
+      setThemePreviewHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
     }}>
       {children}
     </ThemeContext.Provider>

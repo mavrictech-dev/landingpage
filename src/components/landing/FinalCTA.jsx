@@ -7,7 +7,11 @@ export default function FinalCTA() {
   const { theme } = useTheme();
 
   return (
-    <section id="contact" className="relative py-32 px-6">
+    <section
+      id="contact"
+      className="relative py-32 px-6"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '700px' }}
+    >
       <div className="max-w-4xl mx-auto text-center">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -58,7 +62,7 @@ export default function FinalCTA() {
                 color: theme.textSecondary,
                 borderColor: theme.cardBorder,
                 background: theme.cardBg,
-                backdropFilter: 'blur(8px)',
+                backdropFilter: 'blur(6px)',
               }}
             >
               Hablemos

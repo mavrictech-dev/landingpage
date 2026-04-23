@@ -5,20 +5,31 @@ import { useTheme } from '@/lib/ThemeContext';
 import BorderRainEffect from './BorderRainEffect';
 
 const navLinks = [
-  { label: 'Servicios', href: '#solutions' },
-  { label: 'Soluciones', href: '#why-mavric' },
-  { label: 'Proyectos', href: '#work' },
-  { label: 'Contacto', href: '#contact' },
+  { label: 'Services', href: '#solutions' },
+  { label: 'Solutions', href: '#why-mavric' },
+  { label: 'Projects', href: '#work' },
+  { label: 'Team', href: '#team' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, rainMode } = useTheme();
+  const { theme, rainMode, currentThemeName } = useTheme();
+  const navHoverColor = theme.accent2 || '#0891B2';
+  const logoUpscaly = '/src/assets/logoupscaly.png';
+  const letraDark = '/src/assets/letradark.png';
+  const letraSL = '/src/assets/letrasl.png';
+  const useDarkWordmark = ['morning', 'midday', 'afternoon'].includes(currentThemeName);
+  const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll);
+    const onScroll = () => {
+      const next = window.scrollY > 40;
+      setScrolled(prev => (prev === next ? prev : next));
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -45,15 +56,8 @@ export default function Navbar() {
 
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2 group">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center font-heading font-bold text-sm text-white"
-              style={{ background: theme.btnBg }}
-            >
-              M
-            </div>
-            <span className="font-heading font-semibold tracking-tight text-lg transition-colors duration-700" style={{ color: theme.textPrimary }}>
-              MAVRIC
-            </span>
+            <img src={logoUpscaly} alt="Mavric logo" className="h-11 w-auto object-contain" />
+            <img src={wordmarkSrc} alt="Mavric" className="h-10 w-auto object-contain" />
           </a>
 
           <div className="hidden md:flex items-center gap-8">
@@ -61,10 +65,14 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-body transition-colors duration-500"
+                className="relative inline-block pb-1 text-sm font-body transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-400 after:transition-all after:duration-300 hover:after:w-full"
                 style={{ color: theme.textMuted }}
-                onMouseEnter={e => e.target.style.color = theme.textPrimary}
-                onMouseLeave={e => e.target.style.color = theme.textMuted}
+                onMouseEnter={e => {
+                  e.currentTarget.style.color = navHoverColor;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.color = theme.textMuted;
+                }}
               >
                 {link.label}
               </a>

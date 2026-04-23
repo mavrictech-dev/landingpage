@@ -4,28 +4,33 @@ import { motion } from 'framer-motion';
 /**
  * Rain-on-border ripple effect — visible droplet impacts along edges.
  * Place inside a position:relative container.
- * @param {string} edge - 'top' | 'bottom' | 'all'
- * @param {number} count - number of ripple points per edge
  */
-export default function BorderRainEffect({ edge = 'top', count = 7 }) {
+export default function BorderRainEffect(
+  /** @type {{ edge?: 'top' | 'bottom' | 'all', count?: number }} */
+  { edge = 'top', count = 7 }
+) {
+  const isSmallScreen = typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+  const isLowPower = typeof navigator !== 'undefined' ? (navigator.hardwareConcurrency || 4) <= 4 : false;
+  const optimizedCount = Math.max(3, Math.floor(count * (isSmallScreen || isLowPower ? 0.6 : 1)));
+
   const topRipples = useMemo(() =>
-    Array.from({ length: count }, (_, i) => ({
+    Array.from({ length: optimizedCount }, (_, i) => ({
       id: i,
       pos: 5 + Math.random() * 90,
       delay: Math.random() * 3,
-      duration: 1.8 + Math.random() * 1.2,
+      duration: 2.2 + Math.random() * 1.4,
       size: 4 + Math.random() * 4,
-    })), [count]
+    })), [optimizedCount]
   );
 
   const bottomRipples = useMemo(() =>
-    Array.from({ length: count }, (_, i) => ({
+    Array.from({ length: optimizedCount }, (_, i) => ({
       id: i,
       pos: 5 + Math.random() * 90,
       delay: Math.random() * 3,
-      duration: 1.8 + Math.random() * 1.2,
+      duration: 2.2 + Math.random() * 1.4,
       size: 4 + Math.random() * 4,
-    })), [count]
+    })), [optimizedCount]
   );
 
   const showTop = edge === 'top' || edge === 'all';

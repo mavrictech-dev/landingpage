@@ -55,9 +55,8 @@ const cases = [
   },
 ];
 
-function ProjectCard({ project, index, onClick }) {
+function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHoverEnd }) {
   const { theme } = useTheme();
-  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
@@ -65,10 +64,10 @@ function ProjectCard({ project, index, onClick }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7, delay: index * 0.12 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={onHoverStart}
+      onMouseLeave={onHoverEnd}
       onClick={onClick}
-      className="group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700"
+      className="group self-start relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700"
       style={{
         background: theme.isLight
           ? 'rgba(255, 255, 255, 0.35)'
@@ -76,7 +75,7 @@ function ProjectCard({ project, index, onClick }) {
         borderColor: theme.isLight
           ? 'rgba(15, 23, 42, 0.08)'
           : 'rgba(248, 250, 252, 0.07)',
-        backdropFilter: 'blur(20px)',
+        backdropFilter: 'blur(12px)',
         boxShadow: theme.isLight
           ? '0 4px 24px rgba(0,0,0,0.04)'
           : `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)`,
@@ -128,7 +127,7 @@ function ProjectCard({ project, index, onClick }) {
         {/* Hover reveal — smooth expand */}
         <motion.div
           initial={false}
-          animate={{ height: hovered ? 'auto' : 0, opacity: hovered ? 1 : 0 }}
+          animate={{ height: isHovered ? 'auto' : 0, opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
           className="overflow-hidden"
         >
@@ -156,7 +155,7 @@ function ProjectCard({ project, index, onClick }) {
           </div>
         </motion.div>
 
-        {!hovered && (
+        {!isHovered && (
           <p
             className="text-sm mt-1 transition-colors duration-700"
             style={{ color: theme.textMuted }}
@@ -178,9 +177,14 @@ function ProjectCard({ project, index, onClick }) {
 export default function FeaturedWork() {
   const { theme } = useTheme();
   const [selected, setSelected] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
-    <section id="work" className="relative py-24 px-6">
+    <section
+      id="work"
+      className="relative py-24 px-6"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px' }}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -204,13 +208,16 @@ export default function FeaturedWork() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-3 gap-5 items-start" onMouseLeave={() => setHoveredCard(null)}>
           {cases.map((c, i) => (
             <ProjectCard
-              key={i}
+              key={c.title}
               project={c}
               index={i}
               onClick={() => setSelected(c)}
+              isHovered={hoveredCard === c.title}
+              onHoverStart={() => setHoveredCard(c.title)}
+              onHoverEnd={() => setHoveredCard(null)}
             />
           ))}
         </div>

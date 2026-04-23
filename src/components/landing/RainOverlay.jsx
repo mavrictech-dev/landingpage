@@ -4,80 +4,122 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RainOverlay() {
   const { rainMode, theme } = useTheme();
-  const canvasRef = useRef(null);
-  const animRef = useRef(null);
-  const dropsRef = useRef([]);
+  const canvasRef = useRef(/** @type {HTMLCanvasElement | null} */ (null));
+  const animRef = useRef(/** @type {number | null} */ (null));
+  const dropsRef = useRef(/** @type {{ x: number; y: number; len: number; speed: number; opacity: number; width: number; }[]} */ ([]));
 
   useEffect(() => {
     if (!rainMode || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     let w = window.innerWidth;
     let h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
+    const cpuCores = navigator.hardwareConcurrency || 4;
+    const lowPowerDevice = cpuCores <= 4 || w < 768;
+    const targetFps = lowPowerDevice ? 30 : 45;
+    const qualityScale = lowPowerDevice ? 0.72 : 0.85;
+    const visibilityBoost = theme.isLight ? 1.28 : 1.12;
+    let pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    const setupCanvas = () => {
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      canvas.width = Math.floor(w * pixelRatio * qualityScale);
+      canvas.height = Math.floor(h * pixelRatio * qualityScale);
+      const renderScale = (canvas.width / w) || 1;
+      ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
+    };
+
+    setupCanvas();
 
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      setupCanvas();
     };
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     const windAngle = 0.42;
 
-    dropsRef.current = Array.from({ length: 105 }, () => ({
+    const viewportArea = w * h;
+    const densityFactor = lowPowerDevice ? 28000 : 22000;
+    const dropCount = Math.max(34, Math.min(78, Math.floor(viewportArea / densityFactor)));
+    dropsRef.current = Array.from({ length: dropCount }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 30 + 16,
-      speed: Math.random() * 5.5 + 4,
-      opacity: Math.random() * 0.28 + 0.08,
-      width: Math.random() * 3.0 + 1.2,
-      headR: Math.random() * 2.4 + 1.2,
+      len: Math.random() * 24 + 16,
+      speed: Math.random() * 4.4 + 3.4,
+      opacity: Math.min(0.8, (Math.random() * 0.2 + 0.2) * visibilityBoost),
+      width: Math.random() * 2.2 + 1.4,
     }));
 
     const dx = Math.sin(windAngle);
     const dy = Math.cos(windAngle);
 
-    const draw = () => {
+    const targetFrameMs = 1000 / targetFps;
+    let lastFrameTs = 0;
+    let adaptiveLoad = 1;
+
+    const adaptLoad = (/** @type {number} */ frameMs) => {
+      if (frameMs > targetFrameMs * 1.35) {
+        adaptiveLoad = Math.max(0.55, adaptiveLoad - 0.05);
+      } else if (frameMs < targetFrameMs * 0.95) {
+        adaptiveLoad = Math.min(1, adaptiveLoad + 0.02);
+      }
+    };
+
+    const draw = (ts = 0) => {
+      if (document.visibilityState !== 'visible') {
+        animRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      if (ts - lastFrameTs < targetFrameMs) {
+        animRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      const frameMs = ts - lastFrameTs;
+      lastFrameTs = ts;
+      adaptLoad(frameMs);
+
       ctx.clearRect(0, 0, w, h);
+      const drops = dropsRef.current;
+      const drawStride = adaptiveLoad < 0.7 ? 2 : 1;
 
-      dropsRef.current.forEach(drop => {
-        const tailX = drop.x + dx * drop.len;
-        const tailY = drop.y + dy * drop.len;
+      ctx.fillStyle = theme.rainColor;
+      ctx.strokeStyle = theme.rainHighlight || 'rgba(200,220,255,0.3)';
+      ctx.lineWidth = lowPowerDevice ? 0.95 : 1.15;
+      ctx.lineCap = 'round';
 
-        ctx.save();
-        ctx.globalAlpha = drop.opacity;
+      for (let i = 0; i < drops.length; i++) {
+        if (i % drawStride !== 0) continue;
+        const drop = drops[i];
+        // Tail goes opposite to movement so the droplet head leads.
+        const tailX = drop.x - dx * drop.len;
+        const tailY = drop.y - dy * drop.len;
 
         // Tapered teardrop body
         const perpX = dy * drop.width * 0.5;
         const perpY = -dx * drop.width * 0.5;
 
+        ctx.globalAlpha = Math.min(0.9, drop.opacity * 1.15);
         ctx.beginPath();
         ctx.moveTo(drop.x - perpX, drop.y - perpY);
         ctx.lineTo(drop.x + perpX, drop.y + perpY);
         ctx.lineTo(tailX, tailY);
         ctx.closePath();
-        ctx.fillStyle = theme.rainColor;
         ctx.fill();
 
-        // Rounded droplet head
-        ctx.beginPath();
-        ctx.arc(drop.x, drop.y, drop.headR, 0, Math.PI * 2);
-        ctx.fillStyle = theme.rainColor;
-        ctx.globalAlpha = drop.opacity * 1.3;
-        ctx.fill();
-
-        // Highlight glint on head
-        ctx.beginPath();
-        ctx.arc(drop.x - drop.headR * 0.3, drop.y - drop.headR * 0.3, drop.headR * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = theme.rainHighlight || 'rgba(255,255,255,0.15)';
-        ctx.globalAlpha = drop.opacity * 0.5;
-        ctx.fill();
-
-        ctx.restore();
+        if ((!lowPowerDevice || i % 2 === 0) && adaptiveLoad >= 0.65) {
+          ctx.globalAlpha = Math.min(0.75, drop.opacity * 0.65);
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(tailX, tailY);
+          ctx.stroke();
+        }
 
         drop.y += drop.speed * dy;
         drop.x += drop.speed * dx;
@@ -85,7 +127,7 @@ export default function RainOverlay() {
           drop.y = -(Math.random() * 50);
           drop.x = Math.random() * (w + 200) - 200;
         }
-      });
+      }
 
       animRef.current = requestAnimationFrame(draw);
     };

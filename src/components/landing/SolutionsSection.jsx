@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import { Code2, Workflow, Cloud, Brain } from 'lucide-react';
@@ -33,18 +33,37 @@ const solutions = [
 function SolutionCard({ solution, index }) {
   const { theme } = useTheme();
   const ref = useRef(null);
+  const rafRef = useRef(/** @type {number | null} */ (null));
+  const pointerRef = useRef({ x: 0, y: 0 });
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const enableMouseGlow = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    const cores = navigator.hardwareConcurrency || 4;
+    return window.innerWidth >= 1024 && cores > 4;
+  }, []);
 
   const glowX = useTransform(mouseX, v => `${v}px`);
   const glowY = useTransform(mouseY, v => `${v}px`);
 
   function handleMouse(e) {
+    if (!enableMouseGlow) return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
+    pointerRef.current.x = e.clientX - rect.left;
+    pointerRef.current.y = e.clientY - rect.top;
+
+    if (rafRef.current) return;
+    rafRef.current = requestAnimationFrame(() => {
+      mouseX.set(pointerRef.current.x);
+      mouseY.set(pointerRef.current.y);
+      rafRef.current = null;
+    });
   }
+
+  useEffect(() => () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+  }, []);
 
   return (
     <motion.div
@@ -53,7 +72,7 @@ function SolutionCard({ solution, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7, delay: index * 0.12 }}
-      onMouseMove={handleMouse}
+      onMouseMove={enableMouseGlow ? handleMouse : undefined}
       className="group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700"
       style={{
         background: theme.isLight
@@ -62,22 +81,24 @@ function SolutionCard({ solution, index }) {
         borderColor: theme.isLight
           ? 'rgba(15, 23, 42, 0.08)'
           : 'rgba(248, 250, 252, 0.07)',
-        backdropFilter: 'blur(20px)',
+        backdropFilter: 'blur(12px)',
         boxShadow: theme.isLight
           ? '0 4px 24px rgba(0,0,0,0.04)'
           : '0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)',
       }}
     >
-      <motion.div
-        className="absolute w-60 h-60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-0"
-        style={{
-          left: glowX,
-          top: glowY,
-          x: '-50%',
-          y: '-50%',
-          background: `radial-gradient(circle, ${theme.accent1}18, transparent 70%)`,
-        }}
-      />
+      {enableMouseGlow && (
+        <motion.div
+          className="absolute w-60 h-60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-0"
+          style={{
+            left: glowX,
+            top: glowY,
+            x: '-50%',
+            y: '-50%',
+            background: `radial-gradient(circle, ${theme.accent1}18, transparent 70%)`,
+          }}
+        />
+      )}
 
       <div className="relative z-10 p-7">
         <div className="flex items-center justify-between mb-5">
@@ -103,7 +124,11 @@ export default function SolutionsSection() {
   const { theme } = useTheme();
 
   return (
-    <section id="solutions" className="relative py-24 px-6">
+    <section
+      id="solutions"
+      className="relative py-24 px-6"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '900px' }}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

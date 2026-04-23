@@ -3,10 +3,15 @@ import { useTheme } from '@/lib/ThemeContext';
 import BorderRainEffect from './BorderRainEffect';
 
 export default function Footer() {
-  const { theme, rainMode } = useTheme();
+  const { theme, rainMode, currentThemeName } = useTheme();
+  const logoUpscaly = '/src/assets/logoupscaly.png';
+  const letraDark = '/src/assets/letradark.png';
+  const letraSL = '/src/assets/letrasl.png';
 
 
   const solidBg = theme.isLight ? theme.gradientEnd : '#070B14';
+  const useDarkWordmark = ['morning', 'midday', 'afternoon'].includes(currentThemeName);
+  const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;
 
   return (
     <footer
@@ -22,15 +27,8 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center font-heading font-bold text-xs text-white"
-                style={{ background: theme.btnBg }}
-              >
-                M
-              </div>
-              <span className="font-heading font-semibold tracking-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
-                MAVRIC TECHNOLOGIES
-              </span>
+              <img src={logoUpscaly} alt="Mavric logo" className="h-12 w-auto object-contain" />
+              <img src={wordmarkSrc} alt="Mavric Technologies" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-sm leading-relaxed max-w-xs transition-colors duration-700" style={{ color: theme.textMuted }}>
               Desarrollo de software, automatización de procesos, plataformas

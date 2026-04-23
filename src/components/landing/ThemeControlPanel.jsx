@@ -60,7 +60,7 @@ function getWeatherVisual(weatherMode, isNight) {
 }
 
 export default function ThemeControlPanel() {
-  const { currentHour, piuraMinute, piuraTemp, autoTime, autoWeather, weatherMode, setHour, enableAutoTime, setWeatherMode, theme, rainMode } = useTheme();
+  const { currentHour, piuraMinute, piuraTemp, autoWeather, weatherMode, setThemePreviewHour, themePreviewHour, enableAutoTime, setWeatherMode, theme, rainMode } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
 
@@ -87,6 +87,7 @@ export default function ThemeControlPanel() {
     { key: 'cloudy', label: 'Nublado', icon: Cloud },
     { key: 'rain', label: 'Lluvia', icon: CloudRain },
   ];
+  const activeThemeHour = themePreviewHour ?? currentHour;
 
   return (
     <motion.div
@@ -218,39 +219,14 @@ export default function ThemeControlPanel() {
             </button>
 
             <div className="relative px-4 pb-4 space-y-4">
-              {/* Time slider */}
-              <div>
-                <div className="flex justify-between text-[10px] font-mono mb-2" style={{ color: theme.textMuted }}>
-                  <span>00:00</span>
-                  <span className="font-medium" style={{ color: theme.accent1 }}>
-                    {String(currentHour).padStart(2, '0')}:00
-                  </span>
-                  <span>23:00</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={23}
-                  step={1}
-                  value={currentHour}
-                  onChange={(e) => setHour(parseInt(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{
-                    background: theme.isLight
-                      ? 'linear-gradient(90deg, #CBD5E1, #64748B, #475569)'
-                      : 'linear-gradient(90deg, #334155, #64748B, #334155)',
-                  }}
-                />
-              </div>
-
               {/* Quick time buttons */}
               <div className="grid grid-cols-3 gap-1.5">
                 {timeLabels.map(t => {
-                  const isActive = currentHour === t.hour;
+                  const isActive = activeThemeHour === t.hour;
                   return (
                     <button
                       key={t.hour}
-                      onClick={() => setHour(t.hour)}
+                      onClick={() => setThemePreviewHour(t.hour)}
                       className="text-[9px] font-mono tracking-wider py-1.5 rounded-lg border transition-all duration-300"
                       style={{
                         borderColor: isActive ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
@@ -270,9 +246,9 @@ export default function ThemeControlPanel() {
                   onClick={enableAutoTime}
                   className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                   style={{
-                    borderColor: (autoTime && autoWeather) ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
-                    color: (autoTime && autoWeather) ? theme.accent1 : theme.textMuted,
-                    background: (autoTime && autoWeather) ? `${theme.accent1}10` : 'transparent',
+                    borderColor: (themePreviewHour === null && autoWeather) ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
+                    color: (themePreviewHour === null && autoWeather) ? theme.accent1 : theme.textMuted,
+                    background: (themePreviewHour === null && autoWeather) ? `${theme.accent1}10` : 'transparent',
                   }}
                 >
                   <Clock size={10} /> Auto (Castilla)

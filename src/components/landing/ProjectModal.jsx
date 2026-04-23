@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import { X } from 'lucide-react';
@@ -7,15 +8,27 @@ export default function ProjectModal({ project, onClose }) {
   const { theme } = useTheme();
   const [activeImg, setActiveImg] = useState(0);
 
+  useEffect(() => {
+    if (project) {
+      document.body.style.overflow = 'hidden';
+      const handleEsc = (e) => e.key === 'Escape' && onClose();
+      document.addEventListener('keydown', handleEsc);
+      return () => {
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', handleEsc);
+      };
+    }
+  }, [project, onClose]);
+
   if (!project) return null;
 
   const images = project.images || [];
   const mainImg = images[activeImg] || images[0];
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -24,7 +37,7 @@ export default function ProjectModal({ project, onClose }) {
         {/* Backdrop */}
         <div
           className="absolute inset-0"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(12px)' }}
           onClick={onClose}
         />
 
@@ -218,4 +231,6 @@ export default function ProjectModal({ project, onClose }) {
       </motion.div>
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 }
