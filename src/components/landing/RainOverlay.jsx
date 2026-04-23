@@ -27,7 +27,7 @@ export default function RainOverlay() {
     window.addEventListener('resize', resize);
 
     // Wind drift: each drop gets a consistent diagonal offset
-    const windAngle = 0.35; // radians (~20°) from vertical
+    const windAngle = 0.45; // radians (~26°) from vertical
 
     dropsRef.current = Array.from({ length: 160 }, () => ({
       x: Math.random() * (w + 200) - 100,
