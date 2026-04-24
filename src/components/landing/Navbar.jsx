@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useTheme } from '@/lib/ThemeContext';
 import BorderRainEffect from './BorderRainEffect';
+import logoUpscaly from '@/assets/logoupscaly.png';
+import letraDark from '@/assets/letradark.png';
+import letraSL from '@/assets/letrasl.png';
 
 const navLinks = [
   { label: 'Services', href: '#solutions' },
@@ -17,9 +20,6 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, rainMode, currentThemeName } = useTheme();
   const navHoverColor = theme.accent2 || '#0891B2';
-  const logoUpscaly = '/src/assets/logoupscaly.png';
-  const letraDark = '/src/assets/letradark.png';
-  const letraSL = '/src/assets/letrasl.png';
   const useDarkWordmark = ['morning', 'midday', 'afternoon'].includes(currentThemeName);
   const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;
 

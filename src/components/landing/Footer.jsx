@@ -1,14 +1,12 @@
 import React from 'react';
 import { useTheme } from '@/lib/ThemeContext';
 import BorderRainEffect from './BorderRainEffect';
+import logoUpscaly from '@/assets/logoupscaly.png';
+import letraDark from '@/assets/letradark.png';
+import letraSL from '@/assets/letrasl.png';
 
 export default function Footer() {
   const { theme, rainMode, currentThemeName } = useTheme();
-  const logoUpscaly = '/src/assets/logoupscaly.png';
-  const letraDark = '/src/assets/letradark.png';
-  const letraSL = '/src/assets/letrasl.png';
-
-
   const solidBg = theme.isLight ? theme.gradientEnd : '#070B14';
   const useDarkWordmark = ['morning', 'midday', 'afternoon'].includes(currentThemeName);
   const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;

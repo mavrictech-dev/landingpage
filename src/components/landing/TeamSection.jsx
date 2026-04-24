@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
+import davidImage from '@/assets/davidseri.png';
+import javierImage from '@/assets/javiercabcorto.png';
+import mauricioImage from '@/assets/mauricio5.png';
 
 const team = [
   {
@@ -8,21 +11,21 @@ const team = [
     role: 'CEO & Co-Founder',
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 12 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
-    gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 40%, #0891B2 70%, #1E3A5F 100%)',
+    image: davidImage,
   },
   {
     name: 'Mauricio Osore',
     role: 'CTO',
     desc: 'Arquitecta de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
     color: '#0891B2',
-    gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 40%, #0891B2 70%, #1E3A5F 100%)',
+    image: mauricioImage,
   },
   {
     name: 'Javier Merino',
     role: 'Lead Developer',
     desc: 'Full-stack developer especializado en automatización de procesos y desarrollo de APIs de alto rendimiento.',
     color: '#0891B2',
-    gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 40%, #0891B2 70%, #1E3A5F 100%)',
+    image: javierImage,
   }
 ];
 
@@ -51,22 +54,19 @@ function TeamCard({ member, index }) {
     >
       <div
         className="relative h-80 overflow-hidden"
-        style={{ background: member.gradient }}
       >
+        <img
+          src={member.image}
+          alt={member.name}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+        />
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: 'blur(40px)',
             background: theme.isLight
-              ? 'rgba(255,255,255,0.15)'
-              : 'rgba(0,0,0,0.15)',
-          }}
-        />
-        <div
-          className="absolute w-28 h-28 rounded-full blur-[50px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            background: member.color,
-            opacity: 0.4,
+              ? 'rgba(255,255,255,0.08)'
+              : 'rgba(0,0,0,0.2)',
           }}
         />
         <div
