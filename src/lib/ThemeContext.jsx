@@ -207,6 +207,40 @@ const CLOUDY_OVERRIDES = {
   night:     { gradientStart: '#04060C', gradientMid: '#060A14', gradientEnd: '#080D1C', accent1: '#6B7E9A', accent2: '#4B6580', glow: 'rgba(37, 99, 235, 0.05)', orbOpacity: 0.06, showStars: false },
 };
 
+function applyDeluxeOverrides(base) {
+  if (base.isLight) {
+    return {
+      ...base,
+      accent1: '#B8860B',
+      accent2: '#D1A84A',
+      btnBg: '#B8860B',
+      btnText: '#FFFFFF',
+      highlightColor: '#B8860B',
+      glow: 'rgba(184, 134, 11, 0.2)',
+      cardBorder: 'rgba(184, 134, 11, 0.22)',
+      navBorder: 'rgba(184, 134, 11, 0.2)',
+      panelBorder: 'rgba(184, 134, 11, 0.2)',
+      footerBorder: 'rgba(184, 134, 11, 0.18)',
+    };
+  }
+
+  return {
+    ...base,
+    accent1: '#D4AF37',
+    accent2: '#E7C96A',
+    btnBg: '#B8902E',
+    btnText: '#0B0E14',
+    highlightColor: '#E6C45A',
+    glow: 'rgba(212, 175, 55, 0.26)',
+    textSecondary: '#E7D8A6',
+    textMuted: '#C8B88A',
+    cardBorder: 'rgba(212, 175, 55, 0.22)',
+    navBorder: 'rgba(212, 175, 55, 0.2)',
+    panelBorder: 'rgba(212, 175, 55, 0.22)',
+    footerBorder: 'rgba(212, 175, 55, 0.18)',
+  };
+}
+
 function hourToTheme(hour) {
   if (hour >= 6 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 15) return 'midday';
@@ -248,8 +282,26 @@ export function ThemeProvider({ children }) {
   const [themePreviewHour, setThemePreviewHour] = useState(null);
   const [weatherMode, setWeatherMode] = useState('clear');
   const [autoWeather, setAutoWeather] = useState(true);
+  const [deluxeMode, setDeluxeMode] = useState(false);
   const [piuraMinute, setPiuraMinute] = useState(() => getPiuraTime().minute);
   const [piuraTemp, setPiuraTemp] = useState(null);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem('mavric-deluxe-mode');
+      if (stored === '1') setDeluxeMode(true);
+    } catch {
+      // Ignore storage issues in restricted environments.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('mavric-deluxe-mode', deluxeMode ? '1' : '0');
+    } catch {
+      // Ignore storage issues in restricted environments.
+    }
+  }, [deluxeMode]);
 
   useEffect(() => {
     fetchPiuraWeather().then(({ weather, temp }) => {
@@ -268,8 +320,11 @@ export function ThemeProvider({ children }) {
       const overrides = CLOUDY_OVERRIDES[currentThemeName];
       if (overrides) base = { ...base, ...overrides };
     }
+    if (deluxeMode) {
+      base = applyDeluxeOverrides(base);
+    }
     return base;
-  }, [currentThemeName, weatherMode]);
+  }, [currentThemeName, weatherMode, deluxeMode]);
 
   // Update time every 30s
   useEffect(() => {
@@ -308,6 +363,10 @@ export function ThemeProvider({ children }) {
     setWeatherMode(mode);
   }, []);
 
+  const toggleDeluxeMode = useCallback(() => {
+    setDeluxeMode(prev => !prev);
+  }, []);
+
   const isRaining = weatherMode === 'rain';
   const isCloudy = weatherMode === 'cloudy' || weatherMode === 'rain';
 
@@ -317,7 +376,9 @@ export function ThemeProvider({ children }) {
       themePreviewHour,
       rainMode: isRaining, cloudyMode: isCloudy, weatherMode,
       piuraMinute, piuraTemp,
+      deluxeMode,
       setThemePreviewHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
+      setDeluxeMode, toggleDeluxeMode,
     }}>
       {children}
     </ThemeContext.Provider>

@@ -60,7 +60,21 @@ function getWeatherVisual(weatherMode, isNight) {
 }
 
 export default function ThemeControlPanel() {
-  const { currentHour, piuraMinute, piuraTemp, autoWeather, weatherMode, setThemePreviewHour, themePreviewHour, enableAutoTime, setWeatherMode, theme, rainMode } = useTheme();
+  const {
+    currentHour,
+    piuraMinute,
+    piuraTemp,
+    autoWeather,
+    weatherMode,
+    setThemePreviewHour,
+    themePreviewHour,
+    enableAutoTime,
+    setWeatherMode,
+    theme,
+    rainMode,
+    deluxeMode,
+    toggleDeluxeMode,
+  } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
 
@@ -272,6 +286,22 @@ export default function ThemeControlPanel() {
                     );
                   })}
                 </div>
+
+                <button
+                  onClick={toggleDeluxeMode}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: deluxeMode
+                      ? 'rgba(212, 175, 55, 0.5)'
+                      : theme.isLight
+                        ? 'rgba(15,23,42,0.08)'
+                        : 'rgba(248,250,252,0.06)',
+                    color: deluxeMode ? '#D4AF37' : theme.textMuted,
+                    background: deluxeMode ? 'rgba(212, 175, 55, 0.12)' : 'transparent',
+                  }}
+                >
+                  Deluxe {deluxeMode ? 'ON' : 'OFF'}
+                </button>
               </div>
             </div>
           </motion.div>
