@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" width="1254" height="1254">
+  <defs>
+    <style>
+      .outer-shadow { stroke:#5b4308; stroke-width:46; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+      .outer-main   { stroke:url(#outerGrad); stroke-width:34; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+      .spoke-main   { stroke:url(#spokeGrad); stroke-width:28; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+      .spoke-hi     { stroke:#fff7d6; stroke-opacity:.42; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+    </style>
+
+    <!-- Dorado exterior -->
+    <linearGradient id="outerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff2b3"/>
+      <stop offset="25%" stop-color="#f5d76e"/>
+      <stop offset="55%" stop-color="#d4af37"/>
+      <stop offset="80%" stop-color="#b8891f"/>
+      <stop offset="100%" stop-color="#7a5a0b"/>
+    </linearGradient>
+
+    <!-- Dorado claro para líneas al centro -->
+    <linearGradient id="spokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8dc"/>
+      <stop offset="35%" stop-color="#f6e6a8"/>
+      <stop offset="70%" stop-color="#e0be57"/>
+      <stop offset="100%" stop-color="#b7861c"/>
+    </linearGradient>
+
+    <!-- Cuerpo central dorado oscuro / premium -->
+    <linearGradient id="bodyGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#8f6b19"/>
+      <stop offset="30%" stop-color="#6f5310"/>
+      <stop offset="65%" stop-color="#4d390b"/>
+      <stop offset="100%" stop-color="#2a1e05"/>
+    </linearGradient>
+
+    <!-- Nodos dorados -->
+    <radialGradient id="nodeGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fff8db"/>
+      <stop offset="18%" stop-color="#f6e39a"/>
+      <stop offset="45%" stop-color="#e1bc4d"/>
+      <stop offset="75%" stop-color="#b8871f"/>
+      <stop offset="100%" stop-color="#6f4e09"/>
+    </radialGradient>
+
+    <!-- Resplandor central -->
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe58a" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#f3cd52" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#e0b52f" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="nodeShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#3b2904" flood-opacity=".55"/>
+    </filter>
+
+    <g id="node" filter="url(#nodeShadow)">
+      <circle cx="0" cy="0" r="65" fill="url(#nodeGrad)" stroke="#6a4a08" stroke-width="4"/>
+      <ellipse cx="-18" cy="-22" rx="22" ry="17" fill="#fffdf1" opacity=".75"/>
+      <ellipse cx="-14" cy="-26" rx="13" ry="9" fill="#ffffff" opacity=".30"/>
+    </g>
+  </defs>
+
+  <!-- Cuerpo central -->
+  <polygon
+    points="627,160 232,808 627,1042 1022,808"
+    fill="url(#bodyGrad)"
+    stroke="#5f4409"
+    stroke-width="4"
+  />
+
+  <!-- Sombras internas -->
+  <polygon points="627,160 627,611 232,808" fill="#c79a24" opacity=".16"/>
+  <polygon points="627,160 1022,808 627,611" fill="#e3bf56" opacity=".12"/>
+  <polygon points="232,808 627,1042 627,611" fill="#3c2b07" opacity=".22"/>
+  <polygon points="627,611 627,1042 1022,808" fill="#241904" opacity=".24"/>
+
+  <!-- Hexágono exterior sombra -->
+  <g>
+    <line class="outer-shadow" x1="221" y1="379" x2="627" y2="155"/>
+    <line class="outer-shadow" x1="627" y1="155" x2="1033" y2="377"/>
+    <line class="outer-shadow" x1="1033" y1="377" x2="1036" y2="833"/>
+    <line class="outer-shadow" x1="1036" y1="833" x2="626" y2="1075"/>
+    <line class="outer-shadow" x1="626" y1="1075" x2="217" y2="833"/>
+    <line class="outer-shadow" x1="217" y1="833" x2="221" y2="379"/>
+  </g>
+
+  <!-- Hexágono exterior -->
+  <g>
+    <line class="outer-main" x1="221" y1="379" x2="627" y2="155"/>
+    <line class="outer-main" x1="627" y1="155" x2="1033" y2="377"/>
+    <line class="outer-main" x1="1033" y1="377" x2="1036" y2="833"/>
+    <line class="outer-main" x1="1036" y1="833" x2="626" y2="1075"/>
+    <line class="outer-main" x1="626" y1="1075" x2="217" y2="833"/>
+    <line class="outer-main" x1="217" y1="833" x2="221" y2="379"/>
+  </g>
+
+  <!-- Líneas al centro -->
+  <g id="lineas-internas">
+    <line class="spoke-main" x1="627" y1="155"  x2="626" y2="611"/>
+    <line class="spoke-main" x1="221" y1="379"  x2="626" y2="611"/>
+    <line class="spoke-main" x1="1033" y1="377" x2="626" y2="611"/>
+    <line class="spoke-main" x1="217" y1="833"  x2="626" y2="611"/>
+    <line class="spoke-main" x1="1036" y1="833" x2="626" y2="611"/>
+    <line class="spoke-main" x1="626" y1="1075" x2="626" y2="611"/>
+
+    <line class="spoke-hi" x1="627" y1="155"  x2="626" y2="611"/>
+    <line class="spoke-hi" x1="221" y1="379"  x2="626" y2="611"/>
+    <line class="spoke-hi" x1="1033" y1="377" x2="626" y2="611"/>
+    <line class="spoke-hi" x1="217" y1="833"  x2="626" y2="611"/>
+    <line class="spoke-hi" x1="1036" y1="833" x2="626" y2="611"/>
+    <line class="spoke-hi" x1="626" y1="1075" x2="626" y2="611"/>
+  </g>
+
+  <!-- Resplandor -->
+  <circle cx="626" cy="611" r="125" fill="url(#centerGlow)" filter="url(#softGlow)"/>
+
+  <!-- Centro -->
+  <circle cx="626" cy="611" r="53" fill="#fff7df"/>
+
+  <!-- Nodos -->
+  <use href="#node" x="627" y="155"/>
+  <use href="#node" x="221" y="379"/>
+  <use href="#node" x="1033" y="377"/>
+  <use href="#node" x="217" y="833"/>
+  <use href="#node" x="1036" y="833"/>
+  <use href="#node" x="626" y="1075"/>
+</svg>

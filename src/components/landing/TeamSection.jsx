@@ -1,35 +1,39 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '@/lib/ThemeContext';
-import davidImage from '@/assets/davidseri.png';
-import javierImage from '@/assets/javiercabcorto.png';
-import mauricioImage from '@/assets/mauricio5.png';
+import { useTheme } from '../../lib/ThemeContext';
+import davidImage from '../../assets/davidseri.png';
+import javierImage from '../../assets/javiercabcorto.png';
+import mauricioImage from '../../assets/mauricio5.png';
 
 const team = [
   {
     name: 'David Ordinola',
-    role: 'CEO & Co-Founder',
+    role: 'CTO & Co-Founder',
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 12 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
   },
   {
     name: 'Mauricio Osore',
-    role: 'CTO',
-    desc: 'Arquitecta de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
+    role: 'CEO & Co-Founder',
+    desc: 'Arquitecto de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
     color: '#0891B2',
     image: mauricioImage,
   },
   {
     name: 'Javier Merino',
     role: 'Lead Developer',
-    desc: 'Full-stack developer especializado en automatización de procesos y desarrollo de APIs de alto rendimiento.',
+    desc: 'Full-stack developer especializado en automatización de procesos y desarrollo de aplicaciones web/mobile de alto rendimiento.',
     color: '#0891B2',
     image: javierImage,
   }
 ];
 
-function TeamCard({ member, index }) {
+/** @typedef {{ name: string, role: string, desc: string, color: string, image: string }} TeamMember */
+
+function TeamCard(
+  /** @type {{ member: TeamMember, index: number }} */ { member, index }
+) {
   const { theme } = useTheme();
 
   return (
@@ -130,7 +134,7 @@ export default function TeamSection() {
             className="text-xs font-mono tracking-widest uppercase mb-4 block"
             style={{ color: theme.accent1 }}
           >
-            05 // Equipo
+            Equipo
           </span>
           <h2
             className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700"

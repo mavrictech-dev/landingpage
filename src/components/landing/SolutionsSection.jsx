@@ -138,7 +138,7 @@ export default function SolutionsSection() {
           className="text-center mb-16"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-4 block" style={{ color: theme.accent1 }}>
-            02 // Nuestros Servicios
+            Nuestros Servicios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
             Tecnología con{' '}

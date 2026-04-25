@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import { ArrowRight, ChevronRight } from 'lucide-react';
+import SocialLinksPanel from './SocialLinksPanel';
 
 function HeroVisual() {
   const { theme } = useTheme();
@@ -114,27 +115,17 @@ export default function HeroSection() {
               </span>
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg leading-relaxed max-w-lg mb-10 transition-colors duration-700"
-              style={{ color: theme.textMuted }}
-            >
-              Diseñamos y desarrollamos plataformas, automatizaciones y soluciones
-              digitales que optimizan procesos, mejoran la operación y te ayudan a
-              escalar con más eficiencia.
-            </motion.p>
+            
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-wrap gap-4 mb-12"
+              className="flex flex-wrap items-center gap-4 mb-12"
             >
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-medium transition-all duration-300 hover:scale-105"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105"
                 style={{
                   background: theme.btnBg,
                   color: theme.btnText,
@@ -142,20 +133,8 @@ export default function HeroSection() {
                 }}
               >
                 Agendar Consulta
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </a>
-              <a
-                href="#solutions"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-medium border transition-all duration-500 hover:scale-105"
-                style={{
-                  color: theme.textSecondary,
-                  borderColor: theme.cardBorder,
-                  background: `${theme.cardBg}`,
-                  backdropFilter: 'blur(6px)',
-                }}
-              >
-                Ver Soluciones
-              </a>
+              <SocialLinksPanel variant="hero" className='px-4' />
             </motion.div>
 
             <motion.div

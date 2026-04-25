@@ -3,16 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useTheme } from '@/lib/ThemeContext';
 import BorderRainEffect from './BorderRainEffect';
-import logoUpscaly from '@/assets/logoupscaly.png';
-import letraDark from '@/assets/letradark.png';
-import letraSL from '@/assets/letrasl.png';
+import iconAzul from '@/assets/iconazul.svg';
+import iconDorado from '@/assets/icondorado.svg';
+import letraDark from '@/assets/dark.svg';
+import letraSL from '@/assets/light.svg';
 
 const navLinks = [
-  { label: 'Services', href: '#solutions' },
-  { label: 'Solutions', href: '#why-mavric' },
-  { label: 'Projects', href: '#work' },
-  { label: 'Team', href: '#team' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Servicios', href: '#solutions' },
+  { label: 'Nosotros', href: '#nosotros' },
+  { label: 'Equipo', href: '#team' },
+  { label: 'Contactanos', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -22,6 +22,7 @@ export default function Navbar() {
   const navHoverColor = theme.accent2 || '#0891B2';
   const useDarkWordmark = ['morning', 'midday', 'afternoon'].includes(currentThemeName);
   const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;
+  const logoSrc = useDarkWordmark ? iconAzul : iconDorado;
 
   useEffect(() => {
     const onScroll = () => {
@@ -54,18 +55,20 @@ export default function Navbar() {
       >
         {rainMode && <BorderRainEffect edge="bottom" count={6} />}
 
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2 group">
-            <img src={logoUpscaly} alt="Mavric logo" className="h-11 w-auto object-contain" />
-            <img src={wordmarkSrc} alt="Mavric" className="h-10 w-auto object-contain" />
-          </a>
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-4">
+          <div className="flex items-center">
+            <a href="#" className="flex items-center justify-start gap-2 group">
+              <img src={logoSrc} alt="Mavric logo" className="h-11 w-auto object-contain" />
+              <img src={wordmarkSrc} alt="Mavric" className="h-8 w-auto object-contain" />
+            </a>
+          </div>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex flex-1 items-center justify-center gap-8">
             {navLinks.map(link => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative inline-block pb-1 text-sm font-body transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-400 after:transition-all after:duration-300 hover:after:w-full"
+                className="relative inline-block justify-center pb-1 text-sm text-center font-body transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-700 after:transition-all after:duration-300 hover:after:w-full"
                 style={{ color: theme.textMuted }}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = navHoverColor;
@@ -77,9 +80,12 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+          </div>
+
+          <div className="hidden md:flex min-w-[190px] justify-end">
             <a
               href="#contact"
-              className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-500 hover:shadow-lg hover:scale-105"
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 hover:shadow-lg hover:scale-105"
               style={{
                 background: theme.btnBg,
                 color: theme.btnText,
@@ -91,7 +97,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-2 transition-colors duration-500"
+            className="ml-auto md:hidden p-2 transition-colors duration-500"
             style={{ color: theme.textPrimary }}
             onClick={() => setMobileOpen(!mobileOpen)}
           >

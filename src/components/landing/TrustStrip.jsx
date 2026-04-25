@@ -36,7 +36,7 @@ export default function TrustStrip() {
   const { theme } = useTheme();
 
   return (
-    <section className="relative py-16 px-6">
+    <section className="md:flex relative hidden py-16 px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

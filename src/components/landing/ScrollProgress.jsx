@@ -3,12 +3,11 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 
 const sections = [
-  { id: 'hero', label: '01 // INICIO' },
-  { id: 'solutions', label: '02 // SERVICIOS' },
-  { id: 'why-mavric', label: '03 // NOSOTROS' },
-  { id: 'work', label: '04 // CASOS' },
-  { id: 'team', label: '05 // EQUIPO' },
-  { id: 'contact', label: '06 // CONTACTO' },
+  { id: 'hero', label: 'INICIO' },
+  { id: 'solutions', label: 'SERVICIOS' },
+  { id: 'why-mavric', label: 'NOSOTROS' },
+  { id: 'team', label: 'EQUIPO' },
+  { id: 'contact', label: 'CONTACTO' },
 ];
 
 export default function ScrollProgress() {

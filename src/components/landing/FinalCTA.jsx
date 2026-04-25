@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { ArrowRight } from 'lucide-react';
+import SocialContact from './SocialContact';
 
 export default function FinalCTA() {
   const { theme } = useTheme();
@@ -28,7 +28,7 @@ export default function FinalCTA() {
           className="relative z-10"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-6 block" style={{ color: theme.accent1 }}>
-            06 // Siguiente Paso
+            Siguiente Paso
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
             ¿Listo para optimizar{' '}
@@ -43,30 +43,7 @@ export default function FinalCTA() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:hello@mavrictechnologies.com"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:scale-105"
-              style={{
-                background: theme.btnBg,
-                color: theme.btnText,
-                boxShadow: `0 0 40px ${theme.glow}, 0 0 80px ${theme.glow}`,
-              }}
-            >
-              Agendar Consulta
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="mailto:hello@mavrictechnologies.com"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-medium border transition-all duration-500 hover:scale-105"
-              style={{
-                color: theme.textSecondary,
-                borderColor: theme.cardBorder,
-                background: theme.cardBg,
-                backdropFilter: 'blur(6px)',
-              }}
-            >
-              Hablemos
-            </a>
+            <SocialContact variant='hero'/>
           </div>
         </motion.div>
       </div>
