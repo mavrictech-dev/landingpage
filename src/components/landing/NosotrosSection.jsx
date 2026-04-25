@@ -5,32 +5,28 @@ import { Fingerprint, Rocket, Telescope } from 'lucide-react';
 
 const pillars = [
   {
-    icon: Fingerprint,
     title: '¿Quiénes somos?',
     eyebrow: 'Identidad',
     desc: 'Somos un equipo de estrategas, diseñadores y developers enfocados en resolver retos operativos complejos con producto digital, automatización y arquitectura moderna.',
   },
   {
-    icon: Rocket,
     title: 'Misión',
     eyebrow: 'Propósito',
-    desc: 'Construir soluciones tecnológicas a medida que conecten negocio y ejecución, acelerando resultados con experiencias sólidas, medibles y escalables.',
+    desc: 'Brindar soluciones tecnológicas innovadoras mediante el desarrollo, implementación e integración de software, comercialización de equipos tecnológicos y prestación de servicios especializados de consultoría, soporte y transformación digital, contribuyendo a optimizar los procesos operativos y estratégicos de nuestros clientes con eficiencia, calidad y alto valor agregado.',
   },
   {
-    icon: Telescope,
     title: 'Visión',
     eyebrow: 'Dirección',
-    desc: 'Ser el socio tecnológico de referencia para empresas que quieren crecer con sistemas inteligentes, diseño de alto nivel y cultura de mejora continua.',
+    desc: 'Ser una empresa líder a nivel nacional e internacional en el desarrollo e implementación de soluciones tecnológicas integrales, reconocida por su innovación, confiabilidad y capacidad de impulsar la transformación digital de organizaciones públicas y privadas, generando crecimiento sostenible y relaciones de largo plazo con nuestros clientes.',
   },
 ];
 
-/** @typedef {{ icon: React.ElementType, title: string, eyebrow: string, desc: string }} AboutItem */
+/** @typedef {{ title: string, eyebrow: string, desc: string }} AboutItem */
 
 function AboutCard(
   /** @type {{ item: AboutItem, index: number }} */ { item, index }
 ) {
   const { theme } = useTheme();
-  const Icon = item.icon;
 
   return (
     <motion.article
@@ -56,17 +52,6 @@ function AboutCard(
         className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-2xl transition-opacity duration-700 group-hover:opacity-80"
         style={{ background: `${theme.accent1}24`, opacity: 0.5 }}
       />
-
-      <div
-        className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg border"
-        style={{
-          background: `${theme.accent1}16`,
-          borderColor: `${theme.accent1}35`,
-        }}
-      >
-        <Icon size={18} style={{ color: theme.accent1 }} />
-      </div>
-
       <div className="mb-2 text-[11px] font-mono tracking-widest uppercase" style={{ color: theme.accent1 }}>
         {item.eyebrow}
       </div>
