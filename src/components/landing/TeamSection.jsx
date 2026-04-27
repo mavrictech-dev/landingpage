@@ -14,7 +14,7 @@ const team = [
     image: davidImage,
   },
   {
-    name: 'Mauricio Osore',
+    name: 'Mauricio Osores',
     role: 'CEO & Co-Founder',
     desc: 'Arquitecto de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
     color: '#0891B2',
