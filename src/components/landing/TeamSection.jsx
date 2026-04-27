@@ -7,18 +7,18 @@ import mauricioImage from '../../assets/mauricio5.png';
 
 const team = [
   {
+    name: 'Mauricio Osores',
+    role: 'CEO & Co-Founder',
+    desc: 'Arquitecto de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
+    color: '#0891B2',
+    image: mauricioImage,
+  },
+  {
     name: 'David Ordinola',
     role: 'CTO & Co-Founder',
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 12 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
-  },
-  {
-    name: 'Mauricio Osore',
-    role: 'CEO & Co-Founder',
-    desc: 'Arquitecto de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
-    color: '#0891B2',
-    image: mauricioImage,
   },
   {
     name: 'Javier Merino',

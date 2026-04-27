@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import BackgroundAtmosphere from "@/components/landing/BackgroundAtmosphere";
 import RainOverlay from "@/components/landing/RainOverlay";
+import SnowOverlay from "@/components/landing/SnowOverlay";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import HeroSection from "@/components/landing/HeroSection";
@@ -21,6 +22,7 @@ export default function Landing() {
       <div className="relative min-h-screen overflow-x-hidden">
         <BackgroundAtmosphere />
         <RainOverlay />
+        <SnowOverlay />
         <Navbar />
         <ScrollProgress />
         <ThemeControlPanel />

@@ -3,6 +3,11 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 const ThemeContext = createContext();
 
 const PIURA_TZ = 'America/Lima';
+const DEFAULT_COORDS = {
+  lat: -5.1978,
+  lon: -80.6452,
+  label: 'Castilla, Piura',
+};
 
 // Single palette — night blue family (#050810)
 // Dawn < Midday (brightest) > Afternoon > Sunset > Dusk > Night (darkest)
@@ -257,21 +262,25 @@ function getPiuraTime() {
   return { hour: h, minute: m };
 }
 
-// Castilla, Piura, Peru coordinates
-async function fetchPiuraWeather() {
+function parseWeatherCode(code) {
+  if (code === undefined || code === null) return 'clear';
+  if (code <= 1) return 'clear';
+  if (code <= 3 || (code >= 45 && code <= 48)) return 'cloudy';
+  if (code === 66 || code === 67) return 'snow';
+  if (code >= 71 && code <= 77) return 'snow';
+  if (code >= 85 && code <= 86) return 'snow';
+  return 'rain';
+}
+
+async function fetchWeatherByCoords(lat, lon) {
   try {
     const res = await fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=-5.1978&longitude=-80.6452&current=weather_code,temperature_2m&timezone=America/Lima'
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weather_code,temperature_2m&timezone=America/Lima`
     );
     const data = await res.json();
     const code = data?.current?.weather_code;
     const temp = data?.current?.temperature_2m;
-    let weather = 'clear';
-    if (code !== undefined && code !== null) {
-      if (code <= 1) weather = 'clear';
-      else if (code <= 3 || (code >= 45 && code <= 48)) weather = 'cloudy';
-      else weather = 'rain';
-    }
+    const weather = parseWeatherCode(code);
     return { weather, temp: temp !== undefined ? Math.round(temp) : null };
   } catch {
     return { weather: 'clear', temp: null };
@@ -284,7 +293,41 @@ export function ThemeProvider({ children }) {
   const [autoWeather, setAutoWeather] = useState(true);
   const [deluxeMode, setDeluxeMode] = useState(false);
   const [piuraMinute, setPiuraMinute] = useState(() => getPiuraTime().minute);
-  const [piuraTemp, setPiuraTemp] = useState(null);
+  const [locationTemp, setLocationTemp] = useState(null);
+  const [locationLabel, setLocationLabel] = useState(DEFAULT_COORDS.label);
+  const coordsRef = React.useRef({ lat: DEFAULT_COORDS.lat, lon: DEFAULT_COORDS.lon });
+
+  const resolveLocationAndWeather = useCallback(async () => {
+    let coords = { ...DEFAULT_COORDS };
+    let label = DEFAULT_COORDS.label;
+
+    if (typeof window !== 'undefined' && navigator.geolocation) {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: false,
+            timeout: 8000,
+            maximumAge: 600000,
+          });
+        });
+        coords = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+          label: 'Ubicacion detectada',
+        };
+        label = coords.label;
+      } catch {
+        coords = { ...DEFAULT_COORDS };
+        label = DEFAULT_COORDS.label;
+      }
+    }
+
+    coordsRef.current = { lat: coords.lat, lon: coords.lon };
+    setLocationLabel(label);
+    const { weather, temp } = await fetchWeatherByCoords(coords.lat, coords.lon);
+    if (autoWeather) setWeatherMode(weather);
+    setLocationTemp(temp);
+  }, [autoWeather]);
 
   useEffect(() => {
     try {
@@ -304,19 +347,28 @@ export function ThemeProvider({ children }) {
   }, [deluxeMode]);
 
   useEffect(() => {
-    fetchPiuraWeather().then(({ weather, temp }) => {
-      if (autoWeather) setWeatherMode(weather);
-      setPiuraTemp(temp);
-    });
-  }, []);
+    resolveLocationAndWeather();
+  }, [resolveLocationAndWeather]);
 
   const currentHour = getPiuraTime().hour;
   const effectiveThemeHour = themePreviewHour ?? currentHour;
   const currentThemeName = hourToTheme(effectiveThemeHour);
+  const deluxeBlocked = currentThemeName === 'morning' || currentThemeName === 'midday' || currentThemeName === 'afternoon';
+  const deluxeAutoOn = currentThemeName === 'sunset' || currentThemeName === 'dusk' || currentThemeName === 'night';
+
+  useEffect(() => {
+    if (deluxeBlocked) {
+      setDeluxeMode(false);
+      return;
+    }
+    if (deluxeAutoOn) {
+      setDeluxeMode(true);
+    }
+  }, [deluxeBlocked, deluxeAutoOn]);
 
   const theme = useMemo(() => {
     let base = { ...THEMES[currentThemeName] };
-    if (weatherMode === 'cloudy' || weatherMode === 'rain') {
+    if (weatherMode === 'cloudy' || weatherMode === 'rain' || weatherMode === 'snow') {
       const overrides = CLOUDY_OVERRIDES[currentThemeName];
       if (overrides) base = { ...base, ...overrides };
     }
@@ -339,9 +391,10 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     if (!autoWeather) return;
     const interval = setInterval(() => {
-      fetchPiuraWeather().then(({ weather, temp }) => {
+      const { lat, lon } = coordsRef.current;
+      fetchWeatherByCoords(lat, lon).then(({ weather, temp }) => {
         setWeatherMode(weather);
-        setPiuraTemp(temp);
+        setLocationTemp(temp);
       });
     }, 600000);
     return () => clearInterval(interval);
@@ -352,11 +405,8 @@ export function ThemeProvider({ children }) {
     setThemePreviewHour(null);
     const t = getPiuraTime();
     setPiuraMinute(t.minute);
-    fetchPiuraWeather().then(({ weather, temp }) => {
-      setWeatherMode(weather);
-      setPiuraTemp(temp);
-    });
-  }, []);
+    resolveLocationAndWeather();
+  }, [resolveLocationAndWeather]);
 
   const handleSetWeatherMode = useCallback((mode) => {
     setAutoWeather(false);
@@ -364,18 +414,20 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const toggleDeluxeMode = useCallback(() => {
+    if (deluxeBlocked) return;
     setDeluxeMode(prev => !prev);
-  }, []);
+  }, [deluxeBlocked]);
 
   const isRaining = weatherMode === 'rain';
-  const isCloudy = weatherMode === 'cloudy' || weatherMode === 'rain';
+  const isSnowing = weatherMode === 'snow';
+  const isCloudy = weatherMode === 'cloudy' || weatherMode === 'rain' || weatherMode === 'snow';
 
   return (
     <ThemeContext.Provider value={{
       theme, currentThemeName, currentHour, autoWeather,
       themePreviewHour,
-      rainMode: isRaining, cloudyMode: isCloudy, weatherMode,
-      piuraMinute, piuraTemp,
+      rainMode: isRaining, snowMode: isSnowing, cloudyMode: isCloudy, weatherMode,
+      piuraMinute, locationTemp, locationLabel,
       deluxeMode,
       setThemePreviewHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
       setDeluxeMode, toggleDeluxeMode,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { Sun, Moon, Cloud, CloudRain, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sun, Moon, Cloud, CloudRain, Snowflake, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import BorderRainEffect from './BorderRainEffect';
 
 const timeLabels = [
@@ -13,6 +13,7 @@ const timeLabels = [
   { hour: 22, label: 'Noche' },
 ];
 
+/** @param {'clear' | 'cloudy' | 'rain' | 'snow'} weatherMode @param {boolean} isNight */
 function getWeatherVisual(weatherMode, isNight) {
   if (weatherMode === 'rain') {
     return {
@@ -38,6 +39,18 @@ function getWeatherVisual(weatherMode, isNight) {
       iconSize: 18,
     };
   }
+  if (weatherMode === 'snow') {
+    return {
+      Icon: Snowflake,
+      label: 'Nevando',
+      accentColor: '#94A3B8',
+      glowColor: 'rgba(148, 163, 184, 0.22)',
+      gradientBg: isNight
+        ? 'linear-gradient(135deg, rgba(30,41,59,0.45) 0%, rgba(71,85,105,0.25) 100%)'
+        : 'linear-gradient(135deg, rgba(226,232,240,0.4) 0%, rgba(203,213,225,0.2) 100%)',
+      iconSize: 18,
+    };
+  }
   // clear
   if (isNight) {
     return {
@@ -60,31 +73,21 @@ function getWeatherVisual(weatherMode, isNight) {
 }
 
 export default function ThemeControlPanel() {
-  const {
-    currentHour,
-    piuraMinute,
-    piuraTemp,
-    autoWeather,
-    weatherMode,
-    setThemePreviewHour,
-    themePreviewHour,
-    enableAutoTime,
-    setWeatherMode,
-    theme,
-    rainMode,
-    deluxeMode,
-    toggleDeluxeMode,
-  } = useTheme();
+  const { currentHour, currentThemeName, piuraMinute, locationTemp, locationLabel, autoWeather, weatherMode, setThemePreviewHour, themePreviewHour, enableAutoTime, setWeatherMode, theme, rainMode, deluxeMode, toggleDeluxeMode } = useTheme();
   const [open, setOpen] = useState(false);
-  const panelRef = useRef(null);
+  const panelRef = useRef(/** @type {HTMLDivElement | null} */ (null));
 
   const isNight = currentHour >= 19 || currentHour < 6;
   const visual = getWeatherVisual(weatherMode, isNight);
+  const deluxeLocked = currentThemeName === 'morning' || currentThemeName === 'midday' || currentThemeName === 'afternoon';
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e) => {
-      if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false);
+    const handler = (/** @type {MouseEvent | TouchEvent} */ e) => {
+      const target = e.target;
+      if (panelRef.current && target instanceof Node && !panelRef.current.contains(target)) {
+        setOpen(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -100,6 +103,7 @@ export default function ThemeControlPanel() {
     { key: 'clear', label: 'Despejado', icon: isNight ? Moon : Sun },
     { key: 'cloudy', label: 'Nublado', icon: Cloud },
     { key: 'rain', label: 'Lluvia', icon: CloudRain },
+    { key: 'snow', label: 'Nevando', icon: Snowflake },
   ];
   const activeThemeHour = themePreviewHour ?? currentHour;
 
@@ -156,16 +160,16 @@ export default function ThemeControlPanel() {
                 <div className="flex items-center gap-1.5">
                   <MapPin size={8} style={{ color: theme.textMuted }} />
                   <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                    Castilla, Piura
+                    {locationLabel}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
                     {timeStr}
                   </span>
-                  {piuraTemp !== null && (
+                  {locationTemp !== null && (
                     <span className="text-[10px] font-mono" style={{ color: theme.textMuted }}>
-                      {piuraTemp}°C
+                      {locationTemp}°C
                     </span>
                   )}
                 </div>
@@ -217,13 +221,13 @@ export default function ThemeControlPanel() {
                 </div>
                 <div className="flex flex-col items-start">
                   <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                    Castilla, Piura · {visual.label}
+                    {locationLabel} · {visual.label}
                   </span>
                   <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
                     {timeStr}
-                    {piuraTemp !== null && (
+                    {locationTemp !== null && (
                       <span className="text-[10px] font-mono font-normal ml-2" style={{ color: theme.textMuted }}>
-                        {piuraTemp}°C
+                        {locationTemp}°C
                       </span>
                     )}
                   </span>
@@ -265,16 +269,16 @@ export default function ThemeControlPanel() {
                     background: (themePreviewHour === null && autoWeather) ? `${theme.accent1}10` : 'transparent',
                   }}
                 >
-                  <Clock size={10} /> Auto (Castilla)
+                  <Clock size={10} /> Auto (Ubicacion)
                 </button>
-                <div className="grid grid-cols-3 gap-1.5">
+                <div className="grid grid-cols-2 gap-1.5">
                   {weatherOptions.map(w => {
                     const isActive = weatherMode === w.key;
                     return (
                       <button
                         key={w.key}
                         onClick={() => setWeatherMode(w.key)}
-                        className="flex items-center justify-center gap-1 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
+                        className="flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                         style={{
                           borderColor: isActive ? `${theme.accent1}50` : theme.isLight ? 'rgba(15,23,42,0.08)' : 'rgba(248,250,252,0.06)',
                           color: isActive ? theme.accent1 : theme.textMuted,
@@ -289,6 +293,7 @@ export default function ThemeControlPanel() {
 
                 <button
                   onClick={toggleDeluxeMode}
+                  disabled={deluxeLocked}
                   className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                   style={{
                     borderColor: deluxeMode
@@ -298,6 +303,8 @@ export default function ThemeControlPanel() {
                         : 'rgba(248,250,252,0.06)',
                     color: deluxeMode ? '#D4AF37' : theme.textMuted,
                     background: deluxeMode ? 'rgba(212, 175, 55, 0.12)' : 'transparent',
+                    opacity: deluxeLocked ? 0.5 : 1,
+                    cursor: deluxeLocked ? 'not-allowed' : 'pointer',
                   }}
                 >
                   Deluxe {deluxeMode ? 'ON' : 'OFF'}
