@@ -69,14 +69,14 @@ export default function Footer() {
                   <Mail className="h-4 w-4" />
                   informes@mavrictec.com
                 </a>
-                <a
+                {/*<a
                   href="tel:+51987654321"
                   className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-500 hover:underline"
                   style={{ color: theme.textSecondary }}
                 >
                   <Phone className="h-4 w-4" />
                   +51 987654321
-                </a>
+                </a>*/}
                 <span className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-700" style={{ color: theme.textSecondary }}>
                   <MapPin className="h-4 w-4" />
                   PIURA-PERU
