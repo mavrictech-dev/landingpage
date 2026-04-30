@@ -144,7 +144,6 @@ export default function HeroSection() {
               className="flex gap-8 flex-wrap"
             >
               {[
-                { val: '50+', label: 'Proyectos Entregados' },
                 { val: '99.9%', label: 'Disponibilidad' },
                 { val: '3x', label: 'Mayor Eficiencia' },
               ].map((m, i) => (

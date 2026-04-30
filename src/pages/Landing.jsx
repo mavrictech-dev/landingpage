@@ -28,7 +28,7 @@ export default function Landing() {
         <ThemeControlPanel />
         <main>
           <HeroSection />
-          <TrustStrip />
+          {/*<TrustStrip />*/}
           <SolutionsSection />
           {/*   <WhyMavricSection /> */}
           <NosotrosSection />

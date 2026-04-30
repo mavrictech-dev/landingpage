@@ -5,26 +5,32 @@ import { LinkedIn } from '@/components/ui/icons/linkedin';
 import { Instagram } from '@/components/ui/icons/instagram';
 import { GitHub } from '@/components/ui/icons/github';
 import { TikTok } from '@/components/ui/icons/tiktok';
+import { Facebook } from '@/components/ui/icons/facebook' 
 
 const SOCIAL_LINKS = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/mavric-technologies/',
+    href: 'https://www.linkedin.com/company/',
     Icon: LinkedIn,
   },
   {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/',
+    Icon: Facebook,
+  },
+  {
     label: 'Instagram',
-    href: 'https://www.instagram.com/mavrictechnologies/',
+    href: 'https://www.instagram.com/',
     Icon: Instagram,
   },
   {
     label: 'GitHub',
-    href: 'https://github.com/mavrictechnologies',
+    href: 'https://github.com/',
     Icon: GitHub,
   },
   {
     label: 'TikTok',
-    href: 'https://www.tiktok.com/@mavrictechnologies',
+    href: 'https://www.tiktok.com/',
     Icon: TikTok,
   },
 ];

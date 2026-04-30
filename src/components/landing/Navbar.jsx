@@ -24,6 +24,38 @@ export default function Navbar() {
   const wordmarkSrc = useDarkWordmark ? letraDark : letraSL;
   const logoSrc = useDarkWordmark ? iconAzul : iconDorado;
 
+  /**
+   * @param {string} href
+   * @returns {(event: React.MouseEvent<HTMLAnchorElement>) => void}
+   */
+  const handleSectionNavigation = href => event => {
+    if (!href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+    const targetId = href.slice(1);
+
+    setMobileOpen(false);
+
+    window.requestAnimationFrame(() => {
+      if (href === '#') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const offsetTop = targetElement.getBoundingClientRect().top + window.scrollY - 72;
+        window.scrollTo({ top: Math.max(offsetTop, 0), behavior: 'smooth' });
+        window.history.pushState(null, '', href);
+        return;
+      }
+
+      window.location.hash = href;
+    });
+  };
+
   useEffect(() => {
     const onScroll = () => {
       const next = window.scrollY > 40;
@@ -70,6 +102,7 @@ export default function Navbar() {
                 href={link.href}
                 className="relative inline-block justify-center pb-1 text-sm text-center font-body transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-700 after:transition-all after:duration-300 hover:after:w-full"
                 style={{ color: theme.textMuted }}
+                onClick={handleSectionNavigation(link.href)}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = navHoverColor;
                 }}
@@ -91,6 +124,7 @@ export default function Navbar() {
                 color: theme.btnText,
                 boxShadow: `0 0 20px ${theme.glow}`,
               }}
+              onClick={handleSectionNavigation('#contact')}
             >
               Agendar Consulta
             </a>
@@ -125,7 +159,7 @@ export default function Navbar() {
                   href={link.href}
                   className="text-lg font-body transition-colors"
                   style={{ color: theme.textSecondary }}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={handleSectionNavigation(link.href)}
                 >
                   {link.label}
                 </a>
@@ -134,7 +168,7 @@ export default function Navbar() {
                 href="#contact"
                 className="mt-2 px-5 py-3 rounded-lg text-center font-medium"
                 style={{ background: theme.btnBg, color: theme.btnText }}
-                onClick={() => setMobileOpen(false)}
+                onClick={handleSectionNavigation('#contact')}
               >
                 Agendar Consulta
               </a>

@@ -7,17 +7,17 @@ import { Instagram } from '@/components/ui/icons/instagram';
 import { LinkedIn } from '@/components/ui/icons/linkedin';
 
 const CONTACT_LINKS = [
-  {
+  /*{
     label: 'GMAIL',
     href: 'mailto:informes@mavrictec.com',
     Icon: Gmail,
     iconColor: null,
     borderColor: 'transparent',
     shadow: '0 8px 24px rgba(15, 23, 42, 0.18)',
-  },
+  },*/
   {
     label: 'WHATSAPP',
-    href: 'https://wa.me/?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20vuestros%20servicios',
+    href: 'https://wa.me/-?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20sus%20servicios',
     Icon: WhatsApp,
     iconColor: null,
     borderColor: 'transparent',
@@ -25,7 +25,7 @@ const CONTACT_LINKS = [
   },
   {
     label: 'INSTAGRAM',
-    href: 'https://www.instagram.com/mavrictechnologies/',
+    href: 'https://www.instagram.com/',
     Icon: Instagram,
     iconColor: null,
     borderColor: 'transparent',
@@ -33,7 +33,7 @@ const CONTACT_LINKS = [
   },
   {
     label: 'LINKEDIN',
-    href: 'https://www.linkedin.com/company/mavric-technologies/',
+    href: 'https://www.linkedin.com/',
     Icon: LinkedIn,
     iconColor: null,
     borderColor: 'transparent',
