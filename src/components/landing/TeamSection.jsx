@@ -15,7 +15,7 @@ const team = [
   },
   {
     name: 'David Ordinola',
-    role: 'CTO & Co-Founder',
+    role: 'COO & Co-Founder',
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 15 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
