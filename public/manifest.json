@@ -1,0 +1,16 @@
+{
+  "name": "Mavric Technologies",
+  "short_name": "Mavric",
+  "description": "Soluciones digitales, data y producto para impulsar negocios modernos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070B14",
+  "theme_color": "#4F7CFF",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
