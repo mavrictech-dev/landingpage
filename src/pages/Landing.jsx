@@ -15,6 +15,7 @@ import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
 import ThemeControlPanel from "@/components/landing/ThemeControlPanel";
 import NosotrosSection from "@/components/landing/NosotrosSection";
+import WhatsAppFloatingButton from "@/components/landing/WhatsAppFloatingButton";
 
 export default function Landing() {
   return (
@@ -37,6 +38,7 @@ export default function Landing() {
           <FinalCTA />
         </main>
         <Footer />
+        <WhatsAppFloatingButton />
       </div>
     </ThemeProvider>
   );
