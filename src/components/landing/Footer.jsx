@@ -62,20 +62,12 @@ export default function Footer() {
               <h4 className="text-[11px] sm:text-xs font-mono tracking-widest mb-2 sm:mb-4 uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>Contacto</h4>
               <div className="flex flex-col gap-2 sm:gap-3 items-start">
                 <a
-                  href="mailto:mosores@mavrictec.com"
+                  href="mailto:informe@mavrictec.com"
                   className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-500 hover:underline break-all"
                   style={{ color: theme.textSecondary }}
                 >
                   <Mail className="h-4 w-4" />
-                  mosores@mavrictec.com
-                </a>
-                <a
-                  href="mailto:dordinola@mavrictec.com"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-500 hover:underline break-all"
-                  style={{ color: theme.textSecondary }}
-                >
-                  <Mail className="h-4 w-4" />
-                  dordinola@mavrictec.com
+                  informe@mavrictec.com
                 </a>
                 {/*<a
                   href="tel:+51987654321"

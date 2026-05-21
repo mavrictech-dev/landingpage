@@ -1,20 +1,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Gmail } from '@/components/ui/icons/gmail';
 import { WhatsApp } from '@/components/ui/icons/whatsapp';
 import { Instagram } from '@/components/ui/icons/instagram';
 import { LinkedIn } from '@/components/ui/icons/linkedin';
 
 const CONTACT_LINKS = [
-  /*{
+  {
     label: 'GMAIL',
-    href: 'mailto:informes@mavrictec.com',
+    href: 'mailto:informe@mavrictec.com',
     Icon: Gmail,
     iconColor: null,
     borderColor: 'transparent',
     shadow: '0 8px 24px rgba(15, 23, 42, 0.18)',
-  },*/
+  },
   {
     label: 'WHATSAPP',
     href: 'https://wa.me/982423722?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20sus%20servicios',
@@ -52,6 +53,10 @@ export default function SocialContact(
   const textSizeClass = variant === 'footer' ? 'text-[11px]' : 'text-xs';
   const buttonPadding = variant === 'footer' ? 'px-3 py-2' : 'px-3.5 py-2.5';
   const iconBoxClass = variant === 'footer' ? 'h-9 w-9' : 'h-10 w-10';
+  const isMobile = useIsMobile();
+  const visibleLinks = isMobile
+    ? CONTACT_LINKS
+    : CONTACT_LINKS.filter(item => item.label !== 'GMAIL');
 
   return (
     <motion.div
@@ -61,7 +66,7 @@ export default function SocialContact(
       transition={{ duration: 0.5 }}
       className={`inline-flex ${isFooter ? 'flex-col items-start' : 'flex-wrap items-center'} gap-2 ${className}`}
     >
-      {CONTACT_LINKS.map((item, index) => (
+      {visibleLinks.map((item, index) => (
         <motion.a
           key={item.label}
           href={item.href}
