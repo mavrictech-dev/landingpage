@@ -17,7 +17,7 @@ const CONTACT_LINKS = [
   },*/
   {
     label: 'WHATSAPP',
-    href: 'https://wa.me/-?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20sus%20servicios',
+    href: 'https://wa.me/982423722?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20sus%20servicios',
     Icon: WhatsApp,
     iconColor: null,
     borderColor: 'transparent',
