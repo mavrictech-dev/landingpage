@@ -7,6 +7,7 @@ import letraDark from '@/assets/dark.svg';
 import letraSL from '@/assets/light.svg';
 import mapImage from '@/assets/maps.png';
 import SocialLinksPanel from './SocialLinksPanel';
+import { Link } from 'react-router-dom';
 import { Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -45,6 +46,17 @@ export default function Footer() {
               <div className="flex items-center justify-center lg:justify-start">
                 <SocialLinksPanel variant="footer" />
               </div>
+              <Link
+                to="/libro-de-reclamaciones"
+                aria-label="Abrir libro de reclamaciones digital"
+                className="group inline-flex items-center justify-center rounded-2xl border border-transparent transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-400/60"
+              >
+                <img
+                  src="/libro_reclamaciones_digital.svg"
+                  alt="Libro de reclamaciones digital"
+                  className="h-auto w-full max-w-[240px] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition-shadow duration-300 group-hover:shadow-[0_16px_40px_rgba(37,99,235,0.16)]"
+                />
+              </Link>
             </div>
 
             <div className="lg:border-l lg:pl-8" style={{ borderColor: dividerColor }}>
