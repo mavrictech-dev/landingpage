@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        color: #111;
+        margin: 0;
+        padding: 0;
+      }
+
+      .sheet {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .sheet td,
+      .sheet th {
+        border: 1px solid #222;
+        padding: 6px;
+        vertical-align: top;
+      }
+
+      .header-grey {
+        background: #d9d9d9;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .section {
+        background: #cfcfcf;
+        font-weight: 700;
+      }
+
+      .fill {
+        background: #eef3ff;
+      }
+
+      .small {
+        font-size: 10px;
+      }
+
+      .check {
+        width: 18px;
+        height: 18px;
+        background: #eef3ff;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .signature-box {
+        height: 120px;
+        background: #fff;
+        text-align: center;
+      }
+
+      .signature-box img {
+        max-width: 100%;
+        max-height: 95px;
+        object-fit: contain;
+      }
+
+      .detail-box {
+        height: 140px;
+      }
+
+      .request-box {
+        height: 95px;
+      }
+
+      .provider-box {
+        height: 105px;
+        white-space: pre-wrap;
+      }
+
+      .label {
+        font-weight: 700;
+      }
+
+      .provider-validation-box {
+        height: 105px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .provider-validation-value {
+        font-size: 12px;
+        font-weight: 700;
+        white-space: pre-wrap;
+      }
+
+      .provider-validation-label {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="sheet">
+      <tr>
+        <th colspan="5" class="header-grey">LIBRO DE RECLAMACIONES</th>
+        <th colspan="3" class="header-grey">HOJA DE RECLAMACIÓN</th>
+      </tr>
+      <tr>
+        <td class="label">FECHA:</td>
+        <td colspan="4" class="fill"><?= data.complaintDate ?></td>
+        <td class="label">N°</td>
+        <td class="fill"><?= data.complaintNumber ?></td>
+        <td class="fill"></td>
+      </tr>
+      <tr>
+        <td colspan="8">
+          <div><span class="label">PROVEEDOR:</span> <?= data.providerName ?></div>
+          <div><span class="label">RUC:</span> <?= data.providerRuc ?></div>
+          <div><span class="label">DOMICILIO:</span> <?= data.providerAddress ?></div>
+        </td>
+      </tr>
+
+      <tr><td colspan="8" class="section">1. IDENTIFICACIÓN DEL CONSUMIDOR RECLAMANTE</td></tr>
+      <tr><td class="label">NOMBRE:</td><td colspan="7" class="fill"><?= data.fullName ?></td></tr>
+      <tr><td class="label">DNI / CE:</td><td colspan="7" class="fill"><?= data.documentNumber ?></td></tr>
+      <tr><td class="label">DOMICILIO:</td><td colspan="7" class="fill"><?= data.address ?></td></tr>
+      <tr>
+        <td class="label">TELÉFONO</td><td colspan="2" class="fill"><?= data.phone ?></td>
+        <td class="label">E-MAIL:</td><td colspan="4" class="fill"><?= data.email ?></td>
+      </tr>
+      <tr><td colspan="8" class="label">SI ES MENOR DE EDAD, NOMBRE DEL PADRE, MADRE O APODERADO:</td></tr>
+      <tr><td colspan="8" class="fill"><?= data.guardianName ?></td></tr>
+
+      <tr><td colspan="8" class="section">2. IDENTIFICACIÓN DEL BIEN CONTRATADO</td></tr>
+      <tr>
+        <td class="label">PRODUCTO</td><td class="check"><?= data.isProduct ? 'X' : '' ?></td>
+        <td class="label" colspan="2">MONTO RECLAMADO:</td><td colspan="4" class="fill">S/. <?= data.claimedAmount ?></td>
+      </tr>
+      <tr>
+        <td class="label">SERVICIO</td><td class="check"><?= data.isService ? 'X' : '' ?></td>
+        <td class="label" colspan="2">DESCRIPCIÓN:</td><td colspan="4" class="fill"><?= data.description ?></td>
+      </tr>
+
+      <tr>
+        <td colspan="4" class="section">3. DETALLE DE LA RECLAMACIÓN Y PEDIDO DEL CONSUMIDOR</td>
+        <td class="label">RECLAMO¹</td><td class="check"><?= data.isComplaint ? 'X' : '' ?></td>
+        <td class="label">QUEJA²</td><td class="check"><?= data.isGrievance ? 'X' : '' ?></td>
+      </tr>
+      <tr><td colspan="8" class="label">DETALLE:</td></tr>
+      <tr><td colspan="8" class="fill detail-box"><?= data.detail ?></td></tr>
+      <tr>
+        <td colspan="5" class="label">PEDIDO:</td>
+        <td colspan="3" class="label" style="text-align:center; vertical-align:bottom;">FIRMA DEL CONSUMIDOR</td>
+      </tr>
+      <tr>
+        <td colspan="5" class="fill request-box"><?= data.request ?></td>
+        <td colspan="3" class="signature-box">
+          <? if (data.signatureDataUrl) { ?>
+            <img src="<?!= data.signatureDataUrl ?>" alt="Consumer signature" />
+          <? } ?>
+        </td>
+      </tr>
+
+      <tr><td colspan="8" class="section">4. OBSERVACIONES Y ACCIONES ADOPTADAS POR EL PROVEEDOR</td></tr>
+      <tr>
+        <td colspan="3" class="label">FECHA DE COMUNICACIÓN DE LA RESPUESTA:</td>
+        <td colspan="2" class="fill"><?= data.responseDate ?></td>
+        <td colspan="3" rowspan="2" class="signature-box">
+          <div class="provider-validation-box">
+            <div class="provider-validation-value"><?= data.providerValidation ?></div>
+            <div class="provider-validation-label">VALIDACIÓN DEL PROVEEDOR</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="fill provider-box"><?= data.providerSolution ?></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="small"><strong>¹ RECLAMO:</strong> Disconformidad relacionada a los productos o servicios.</td>
+        <td colspan="4" class="small"><strong>² QUEJA:</strong> Disconformidad no relacionada a los productos o servicios; o, malestar o descontento respecto a la atención al público.</td>
+      </tr>
+    </table>
+  </body>
+</html>
