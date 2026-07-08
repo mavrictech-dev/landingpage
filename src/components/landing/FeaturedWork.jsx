@@ -6,52 +6,20 @@ import ProjectModal from './ProjectModal';
 
 const cases = [
   {
-    tag: 'PLATAFORMA DE GESTIÓN',
-    title: 'Sistema de Control Operativo Centralizado',
-    challenge: 'Una empresa con operaciones distribuidas necesitaba unificar datos de múltiples sedes y eliminar reportes manuales.',
-    solution: 'Desarrollamos una plataforma cloud con dashboards en tiempo real, alertas automáticas y vistas personalizadas por rol y sede.',
-    outcome: 'Reducción del 40% en tiempos de reporte. Toma de decisiones centralizada y basada en datos.',
-    impact: '40% menos tiempo en reportes',
-    fullDescription: 'Este proyecto consistió en diseñar y desarrollar una plataforma integral de control operativo para una empresa con presencia en múltiples sedes a nivel nacional. La solución unificó fuentes de datos dispersas en un solo sistema centralizado, con dashboards en tiempo real personalizados por rol, automatización de alertas operativas y generación de reportes avanzados. La plataforma permite a los tomadores de decisión acceder a indicadores clave desde cualquier ubicación, eliminando la dependencia de hojas de cálculo y procesos manuales.',
-    techStack: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Redis'],
+    tag: 'LANDING PAGE',
+    title: 'Mavicca landing page',
+    challenge: 'Mavicca necesitaba una presencia digital clara para presentar su propuesta de consultoría y servicios ambientales con una experiencia moderna y confiable.',
+    solution: 'Diseñamos una landing page enfocada en comunicar servicios, reforzar credibilidad de marca y facilitar el contacto comercial desde cualquier dispositivo.',
+    outcome: 'Una experiencia visual alineada a la identidad de la empresa, preparada para captar interés y dirigir visitas hacia la conversión.',
+    impact: 'Consultoría y servicios ambientales',
+    fullDescription: 'Este proyecto corresponde a la landing page de Mavicca, una empresa orientada a consultoría y servicios ambientales. La propuesta pone el foco en una comunicación directa, jerarquía visual limpia y una presentación de marca profesional para transmitir confianza desde el primer contacto. La interfaz fue planteada para acompañar el posicionamiento de la empresa y facilitar que potenciales clientes entiendan rápidamente el valor de sus servicios.',
+    techStack: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion'],
     images: [
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80',
-      'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&q=80',
+      '/mavicca-landing.png',
+      '/logo-final-mavicca.png',
     ],
-    color: '#2563EB',
-  },
-  {
-    tag: 'AUTOMATIZACIÓN EMPRESARIAL',
-    title: 'Integración y Automatización de Procesos',
-    challenge: 'Una empresa de servicios financieros invertía más de 200 horas/mes en reconciliación manual entre CRM, contabilidad y compliance.',
-    solution: 'Diseñamos un motor de automatización que conecta sus sistemas internos con reglas de validación inteligentes y flujos sin intervención manual.',
-    outcome: '85% de tareas repetitivas eliminadas. Reportes de cumplimiento generados 3x más rápido.',
-    impact: '85% de automatización lograda',
-    fullDescription: 'Implementamos un sistema de automatización empresarial completo para una firma de servicios financieros que enfrentaba cuellos de botella operativos severos. El motor conecta CRM, sistemas contables y plataformas de compliance mediante APIs inteligentes, ejecutando validaciones automáticas y generando flujos de trabajo sin intervención humana. El resultado fue una transformación radical en la eficiencia operativa, liberando cientos de horas mensuales del equipo para tareas de mayor valor estratégico.',
-    techStack: ['Python', 'Kafka', 'Kubernetes', 'MongoDB', 'Terraform', 'GraphQL'],
-    images: [
-      'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80',
-      'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&q=80',
-      'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&q=80',
-    ],
-    color: '#0284C7',
-  },
-  {
-    tag: 'ANALÍTICA E IA',
-    title: 'Sistema de Analítica Predictiva',
-    challenge: 'Una empresa de tecnología carecía de herramientas para anticipar la rotación de clientes e identificar oportunidades de crecimiento.',
-    solution: 'Implementamos modelos de machine learning para predicción de churn y un panel analítico con recomendaciones accionables para el equipo comercial.',
-    outcome: 'Reducción del 22% en churn. Más de $1.2M en oportunidades de upsell detectadas en 6 meses.',
-    impact: '$1.2M en oportunidades detectadas',
-    fullDescription: 'Desarrollamos un ecosistema de analítica predictiva que combina modelos de machine learning avanzados con visualizaciones intuitivas para el equipo comercial. Los modelos de predicción de churn identifican clientes en riesgo con semanas de anticipación, mientras que el motor de recomendaciones sugiere oportunidades de upselling basadas en patrones de comportamiento. El panel centraliza métricas clave, tendencias y alertas automáticas, permitiendo al equipo actuar de forma proactiva en lugar de reactiva.',
-    techStack: ['TensorFlow', 'Python', 'React', 'BigQuery', 'GCP', 'Looker'],
-    images: [
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
-      'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=400&q=80',
-      'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&q=80',
-    ],
-    color: '#EA580C',
+    websiteUrl: 'https://mavicca-landing1.netlify.app',
+    color: '#0F766E',
   },
 ];
 
@@ -123,6 +91,20 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
         >
           {project.title}
         </h3>
+
+        {project.websiteUrl && (
+          <a
+            href={project.websiteUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-mono tracking-wider uppercase transition-opacity duration-300 hover:opacity-80"
+            style={{ color: project.color }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            Ver sitio
+            <ArrowUpRight size={14} />
+          </a>
+        )}
 
         {/* Hover reveal — smooth expand */}
         <motion.div
@@ -208,7 +190,7 @@ export default function FeaturedWork() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-5 items-start" onMouseLeave={() => setHoveredCard(null)}>
+        <div className="mx-auto grid max-w-3xl gap-5 items-start" onMouseLeave={() => setHoveredCard(null)}>
           {cases.map((c, i) => (
             <ProjectCard
               key={c.title}

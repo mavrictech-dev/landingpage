@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { X } from 'lucide-react';
+import { ArrowUpRight, X } from 'lucide-react';
 
 export default function ProjectModal({ project, onClose }) {
   const { theme } = useTheme();
@@ -97,6 +97,22 @@ export default function ProjectModal({ project, onClose }) {
               >
                 {project.impact}
               </div>
+            )}
+            {project.websiteUrl && (
+              <a
+                href={project.websiteUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-mono tracking-widest uppercase transition-all duration-300 hover:scale-[1.02]"
+                style={{
+                  color: project.color,
+                  background: `${project.color}12`,
+                  border: `1px solid ${project.color}25`,
+                }}
+              >
+                Visitar proyecto
+                <ArrowUpRight size={14} />
+              </a>
             )}
           </div>
 

@@ -7,6 +7,7 @@ import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import HeroSection from "@/components/landing/HeroSection";
 import SolutionsSection from "@/components/landing/SolutionsSection";
+import FeaturedWork from "@/components/landing/FeaturedWork";
 import TeamSection from "@/components/landing/TeamSection";
 import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
@@ -31,7 +32,7 @@ export default function Landing() {
           <SolutionsSection />
           {/*   <WhyMavricSection /> */}
           <NosotrosSection />
-         {/*  <FeaturedWork /> */}
+          <FeaturedWork />
           <TeamSection />
           <FinalCTA />
         </main>

@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../lib/ThemeContext';
 import davidImage from '../../assets/davidseri.png';
-import javierImage from '../../assets/javiercabcorto.png';
 import mauricioImage from '../../assets/mauricio5.png';
 
 const team = [
@@ -19,13 +18,6 @@ const team = [
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 15 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
-  },
-  {
-    name: 'Javier Merino',
-    role: 'Lead Developer',
-    desc: 'Full-stack developer especializado en automatización de procesos y desarrollo de aplicaciones web/mobile de alto rendimiento.',
-    color: '#0891B2',
-    image: javierImage,
   }
 ];
 

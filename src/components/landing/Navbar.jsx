@@ -12,6 +12,7 @@ const navLinks = [
   { label: 'Servicios', href: '#solutions' },
   { label: 'Nosotros', href: '#nosotros' },
   { label: 'Equipo', href: '#team' },
+  { label: 'Proyectos', href: '#work' },
   { label: 'Contactanos', href: '#contact' },
 ];
 
