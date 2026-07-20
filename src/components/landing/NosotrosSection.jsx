@@ -118,6 +118,28 @@ export default function NosotrosSection() {
             <AboutCard key={item.title} item={item} index={index} />
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-12 sm:mt-16 rounded-2xl overflow-hidden border transition-all duration-700 mx-auto max-w-4xl"
+          style={{
+            borderColor: theme.isLight ? 'rgba(15, 23, 42, 0.08)' : 'rgba(248, 250, 252, 0.07)',
+            boxShadow: theme.isLight
+              ? '0 6px 24px rgba(0,0,0,0.04)'
+              : '0 8px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.02)',
+          }}
+        >
+          <video 
+            src="/presentacion.mp4" 
+            controls 
+            className="w-full h-auto aspect-video object-cover"
+          >
+            Tu navegador no soporta el elemento de video.
+          </video>
+        </motion.div>
       </div>
     </section>
   );
