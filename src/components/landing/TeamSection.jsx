@@ -18,6 +18,13 @@ const team = [
     desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 15 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
+  },
+  {
+    name: 'Max Garcia Lopez',
+    role: 'Programador Full-Stack',
+    desc: 'Full Stack Developer (Laravel, Vue.js, React, Node.js, Express js, NestJs, TypeScript, C#) | Especialista en Implementación de Sistemas y Arquitectura.',
+    color: '#0891B2',
+    image: '',
   }
 ];
 
@@ -51,12 +58,18 @@ function TeamCard(
       <div
         className="relative h-80 overflow-hidden"
       >
-        <img
-          src={member.image}
-          alt={member.name}
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="lazy"
-        />
+        {member.image ? (
+          <img
+            src={member.image}
+            alt={member.name}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="absolute inset-0 h-full w-full flex items-center justify-center text-5xl font-bold opacity-30" style={{ backgroundColor: `${member.color}20`, color: member.color }}>
+            {member.name.charAt(0)}
+          </div>
+        )}
         <div
           className="absolute inset-0"
           style={{
