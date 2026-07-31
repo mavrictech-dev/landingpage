@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../lib/ThemeContext';
-import davidImage from '../../assets/davidseri.png';
-import mauricioImage from '../../assets/mauricio5.png';
+import davidImage from '../../assets/davidseri.webp';
+import mauricioImage from '../../assets/mauricio5.webp';
 import maxImage from '../../assets/max.webp';
 
 const team = [

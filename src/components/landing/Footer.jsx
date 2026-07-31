@@ -5,7 +5,7 @@ import iconAzul from '@/assets/iconazul.svg';
 import iconDorado from '@/assets/icondorado.svg';
 import letraDark from '@/assets/dark.svg';
 import letraSL from '@/assets/light.svg';
-import mapImage from '@/assets/maps.png';
+import mapImage from '@/assets/maps.webp';
 import SocialLinksPanel from './SocialLinksPanel';
 import { Link } from 'react-router-dom';
 import { Mail, MapPin } from 'lucide-react';
