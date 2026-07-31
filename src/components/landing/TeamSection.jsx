@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../lib/ThemeContext';
 import davidImage from '../../assets/davidseri.png';
 import mauricioImage from '../../assets/mauricio5.png';
+import maxImage from '../../assets/max.webp';
 
 const team = [
   {
@@ -24,7 +25,7 @@ const team = [
     role: 'Programador Full-Stack',
     desc: 'Full Stack Developer (Laravel, Vue.js, React, Node.js, Express js, NestJs, TypeScript, C#) | Especialista en Implementación de Sistemas y Arquitectura.',
     color: '#0891B2',
-    image: '',
+    image: maxImage,
   }
 ];
 
