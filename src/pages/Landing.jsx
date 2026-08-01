@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import BackgroundAtmosphere from "@/components/landing/BackgroundAtmosphere";
 import RainOverlay from "@/components/landing/RainOverlay";
@@ -7,14 +7,18 @@ import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import HeroSection from "@/components/landing/HeroSection";
 import SolutionsSection from "@/components/landing/SolutionsSection";
-import FeaturedWork from "@/components/landing/FeaturedWork";
-import TeamSection from "@/components/landing/TeamSection";
-import FinalCTA from "@/components/landing/FinalCTA";
-import Footer from "@/components/landing/Footer";
 import ThemeControlPanel from "@/components/landing/ThemeControlPanel";
-import NosotrosSection from "@/components/landing/NosotrosSection";
-import SurveyEntryNotification from "@/components/landing/SurveyEntryNotification";
 import WhatsAppFloatingButton from "@/components/landing/WhatsAppFloatingButton";
+import PromoFloatingBanner from "@/components/landing/PromoFloatingBanner";
+
+// Lazy loaded components (below the fold)
+const NosotrosSection = lazy(() => import("@/components/landing/NosotrosSection"));
+const FeaturedWork = lazy(() => import("@/components/landing/FeaturedWork"));
+const TeamSection = lazy(() => import("@/components/landing/TeamSection"));
+const FinalCTA = lazy(() => import("@/components/landing/FinalCTA"));
+const Footer = lazy(() => import("@/components/landing/Footer"));
+const SurveyEntryNotification = lazy(() => import("@/components/landing/SurveyEntryNotification"));
+const PromoModal = lazy(() => import("@/components/landing/PromoModal"));
 
 export default function Landing() {
   return (
@@ -26,19 +30,27 @@ export default function Landing() {
         <Navbar />
         <ScrollProgress />
         <ThemeControlPanel />
+        
         <main>
           <HeroSection />
-          {/*<TrustStrip />*/}
           <SolutionsSection />
-          {/*   <WhyMavricSection /> */}
-          <NosotrosSection />
-          <FeaturedWork />
-          <TeamSection />
-          <FinalCTA />
+          
+          <Suspense fallback={<div className="min-h-[200px]" />}>
+            <NosotrosSection />
+            <FeaturedWork />
+            <TeamSection />
+            <FinalCTA />
+          </Suspense>
         </main>
-        <Footer />
-        <SurveyEntryNotification />
+
+        <Suspense fallback={null}>
+          <Footer />
+          <SurveyEntryNotification />
+          <PromoModal />
+        </Suspense>
+
         <WhatsAppFloatingButton />
+        <PromoFloatingBanner />
       </div>
     </ThemeProvider>
   );

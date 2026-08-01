@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-function StarField(/** @type {{ count?: number, color: string }} */ { count = 40, color }) {
+function StarField({ count = 40, color }) {
   const stars = useMemo(() =>
     Array.from({ length: count }, (_, i) => ({
       id: i,
@@ -17,20 +17,60 @@ function StarField(/** @type {{ count?: number, color: string }} */ { count = 40
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <style>
+        {`
+          @keyframes twinkle {
+            0% { opacity: 0.05; }
+            50% { opacity: var(--max-opacity); }
+            100% { opacity: 0.05; }
+          }
+          @keyframes floatOrb1 {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(50px, -30px); }
+            66% { transform: translate(-30px, 20px); }
+            100% { transform: translate(0, 0); }
+          }
+          @keyframes floatOrb2 {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(-40px, 40px); }
+            66% { transform: translate(30px, -20px); }
+            100% { transform: translate(0, 0); }
+          }
+          @keyframes floatOrb3 {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -20px); }
+            66% { transform: translate(-20px, 30px); }
+            100% { transform: translate(0, 0); }
+          }
+          .star {
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            will-change: opacity;
+          }
+          .orb1-anim { animation: floatOrb1 20s ease-in-out infinite; will-change: transform; }
+          .orb2-anim { animation: floatOrb2 25s ease-in-out infinite; will-change: transform; }
+          .orb3-anim { animation: floatOrb3 30s ease-in-out infinite; will-change: transform; }
+        `}
+      </style>
       {stars.map(s => (
-        <motion.div
+        <div
           key={s.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${s.x}%`,
-            top: `${s.y}%`,
-            width: s.size,
-            height: s.size,
-            background: color,
-            boxShadow: `0 0 ${s.size * 2}px ${color}`,
-          }}
-          animate={{ opacity: [0.05, s.maxOpacity, 0.05] }}
-          transition={{ duration: s.duration, delay: s.delay, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute rounded-full star"
+          style={Object.assign(
+            {
+              left: `${s.x}%`,
+              top: `${s.y}%`,
+              width: s.size,
+              height: s.size,
+              background: color,
+              boxShadow: `0 0 ${s.size * 2}px ${color}`,
+            },
+            {
+              '--max-opacity': s.maxOpacity,
+              '--duration': `${s.duration}s`,
+              '--delay': `${s.delay}s`,
+            }
+          )}
         />
       ))}
     </div>
@@ -51,80 +91,67 @@ export default function BackgroundAtmosphere() {
   const starCount = 'starCount' in theme && typeof theme.starCount === 'number' ? theme.starCount : 30;
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden">
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-slate-900">
       {/* Rich multi-stop gradient background */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{
+      <div
+        className="absolute inset-0 transition-colors duration-1000"
+        style={{
           background: `linear-gradient(170deg, ${theme.gradientStart} 0%, ${theme.gradientMid} 30%, ${theme.gradientEnd} 55%, ${theme.gradientMid} 75%, ${theme.gradientStart} 100%)`,
         }}
-        transition={{ duration: enableRichMotion ? 1.5 : 0.3, ease: 'easeInOut' }}
       />
 
       {/* Secondary radial wash — adds depth and breaks solidity */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{
+      <div
+        className="absolute inset-0 transition-all duration-1000"
+        style={{
           background: `radial-gradient(ellipse 140% 70% at 25% 15%, ${theme.gradientMid} 0%, transparent 60%)`,
           opacity: theme.isLight ? 0.4 : 0.8,
         }}
-        transition={{ duration: enableRichMotion ? 2 : 0.3, ease: 'easeInOut' }}
       />
 
       {/* Third radial — bottom-right warmth */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{
+      <div
+        className="absolute inset-0 transition-all duration-1000"
+        style={{
           background: `radial-gradient(ellipse 100% 80% at 80% 85%, ${theme.gradientEnd} 0%, transparent 55%)`,
           opacity: theme.isLight ? 0.35 : 0.7,
         }}
-        transition={{ duration: enableRichMotion ? 2 : 0.3, ease: 'easeInOut' }}
       />
 
       {/* Aura glow */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ background: theme.aura }}
-        transition={{ duration: enableRichMotion ? 1.5 : 0.3, ease: 'easeInOut' }}
+      <div
+        className="absolute inset-0 transition-all duration-1000"
+        style={{ background: theme.aura }}
       />
 
       {/* Orb 1 */}
-      <motion.div
-        className="absolute w-[620px] h-[620px] rounded-full blur-[120px]"
-        animate={{
+      <div
+        className={`absolute w-[620px] h-[620px] rounded-full blur-[120px] transition-colors duration-1000 ${enableRichMotion ? 'orb1-anim' : ''}`}
+        style={{ 
+          top: '5%', left: '15%',
           background: theme.accent1,
           opacity: theme.orbOpacity,
-          x: enableRichMotion ? [0, 50, -30, 0] : 0,
-          y: enableRichMotion ? [0, -30, 20, 0] : 0,
         }}
-        transition={{ duration: 20, repeat: enableRichMotion ? Infinity : 0, ease: 'easeInOut' }}
-        style={{ top: '5%', left: '15%' }}
       />
 
       {/* Orb 2 */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full blur-[100px]"
-        animate={{
+      <div
+        className={`absolute w-[500px] h-[500px] rounded-full blur-[100px] transition-colors duration-1000 ${enableRichMotion ? 'orb2-anim' : ''}`}
+        style={{ 
+          top: '45%', right: '8%',
           background: theme.accent2,
           opacity: theme.orbOpacity * 0.75,
-          x: enableRichMotion ? [0, -40, 30, 0] : 0,
-          y: enableRichMotion ? [0, 40, -20, 0] : 0,
         }}
-        transition={{ duration: 25, repeat: enableRichMotion ? Infinity : 0, ease: 'easeInOut' }}
-        style={{ top: '45%', right: '8%' }}
       />
 
       {/* Orb 3 — mid-page softener */}
-      <motion.div
-        className="absolute w-[360px] h-[360px] rounded-full blur-[110px]"
-        animate={{
+      <div
+        className={`absolute w-[360px] h-[360px] rounded-full blur-[110px] transition-colors duration-1000 ${enableRichMotion ? 'orb3-anim' : ''}`}
+        style={{ 
+          top: '60%', left: '40%',
           background: theme.gradientMid,
           opacity: theme.orbOpacity * 0.5,
-          x: enableRichMotion ? [0, 30, -20, 0] : 0,
-          y: enableRichMotion ? [0, -20, 30, 0] : 0,
         }}
-        transition={{ duration: 30, repeat: enableRichMotion ? Infinity : 0, ease: 'easeInOut' }}
-        style={{ top: '60%', left: '40%' }}
       />
 
       {/* Stars */}
@@ -135,6 +162,7 @@ export default function BackgroundAtmosphere() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2 }}
+            className="absolute inset-0"
           >
             <StarField count={starCount} color={theme.particleColor} />
           </motion.div>
