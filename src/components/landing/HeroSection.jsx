@@ -98,7 +98,7 @@ export default function HeroSection() {
             >
               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: theme.accent1 }} />
               <span className="text-xs font-mono tracking-wider" style={{ color: theme.accent1 }}>
-                Software a Medida · Automatización · Cloud · IA
+                Soluciones empresariales escalables
               </span>
             </motion.div>
 
@@ -109,9 +109,9 @@ export default function HeroSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold leading-[1.1] mb-6 transition-colors duration-700"
               style={{ color: theme.textPrimary }}
             >
-              Software a medida para empresas que buscan{' '}
+              Innovación tecnológica para escalar tu negocio con{' '}
               <span style={{ color: theme.highlightColor }}>
-                crecer con tecnología
+                efectividad y automatización
               </span>
             </motion.h1>
 

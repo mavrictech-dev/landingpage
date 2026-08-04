@@ -102,7 +102,7 @@ export default function NosotrosSection() {
             className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700"
             style={{ color: theme.textPrimary }}
           >
-            Construimos tecnología con{' '}
+            Desarrollamos tecnología con{' '}
             <span style={{ color: theme.highlightColor }}>dirección clara</span>
           </h2>
           <p
