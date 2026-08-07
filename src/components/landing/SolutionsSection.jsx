@@ -143,10 +143,11 @@ export default function SolutionsSection() {
             Nuestros Servicios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
-            Tecnología con{' '}
+            Tecnología{' '}
             <span style={{ color: theme.highlightColor }}>
-              Propósito
-            </span>
+              estratégica
+            </span>{' '}
+            para maximizar indicadores corporativos
           </h2>
           <p className="max-w-xl mx-auto text-lg transition-colors duration-700" style={{ color: theme.textMuted }}>
             Soluciones digitales enfocadas en optimizar operaciones, integrar sistemas y acelerar el crecimiento de tu empresa.

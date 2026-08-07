@@ -72,12 +72,12 @@ export default function PromoModal() {
             >
               <img 
                 src={bannerImg} 
-                alt="Oferta Especial" 
+                alt="Promoción Especial" 
                 className="max-h-[85vh] max-w-[90vw] w-auto transition-transform duration-700 group-hover:scale-[1.02]"
                 style={{ display: 'block', objectFit: 'contain' }}
               />
               <div className="absolute top-4 left-4 z-20 bg-red-600 text-white text-xs font-black px-4 py-2 rounded-full uppercase tracking-wider animate-pulse shadow-lg pointer-events-none">
-                ¡Oferta Especial!
+                ¡Promoción Especial!
               </div>
             </div>
           </motion.div>
