@@ -21,6 +21,21 @@ const cases = [
     websiteUrl: 'https://mavicca-landing1.netlify.app',
     color: '#0F766E',
   },
+  {
+    tag: 'SAAS & CHATBOT IA',
+    title: 'Mavricitas — Agendamiento Inteligente',
+    challenge: 'Pérdida continua de prospectos por tiempos de espera lentos en canales manuales, desorganización en agendas y alta tasa de ausencias (no-shows) en citas programadas fuera de horario.',
+    solution: 'Implementamos un asistente conversacional inteligente 24/7 sincronizado en tiempo real con Google Calendar, capaz de guiar la selección de sedes/servicios y disparar confirmaciones y alertas inmediatas vía WhatsApp y correo.',
+    outcome: 'Reservas completadas en menos de 1 minuto sin intervención humana, sincronización automática de agendas sin solapamientos y disminución drástica del ausentismo mediante notificaciones automatizadas.',
+    impact: 'Chatbot con IA, Google Calendar y Alertas WhatsApp / Email',
+    fullDescription: 'Mavricitas es una plataforma moderna de reservas online impulsada por un asistente conversacional inteligente diseñado para empresas de servicios. Los usuarios pueden interactuar de forma intuitiva, consultar disponibilidad en tiempo real según la sede o servicio requerido y confirmar citas en cuestión de segundos sin llamadas ni esperas. El sistema se sincroniza bidireccionalmente con Google Calendar para mantener las agendas del equipo al día y despacha recordatorios automáticos por WhatsApp y correo electrónico, eliminando fricciones operativas y elevando la conversión de reservas.',
+    techStack: ['Next.js', 'Google Calendar API', 'WhatsApp Business API', 'Node.js', 'Tailwind CSS'],
+    images: [
+      '/mavricitas-landing.png',
+    ],
+    websiteUrl: 'https://mavrictec.mavricitas.com/',
+    color: '#2563EB',
+  },
 ];
 
 function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHoverEnd }) {
@@ -35,7 +50,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
       onClick={onClick}
-      className="group self-start relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700"
+      className="group self-start relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700 w-full"
       style={{
         background: theme.isLight
           ? 'rgba(255, 255, 255, 0.35)'
@@ -50,17 +65,17 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
       }}
     >
       {/* Cover image area */}
-      <div className="relative h-44 overflow-hidden">
+      <div className="relative h-48 overflow-hidden">
         <img
           src={project.images?.[0]}
           alt={project.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          style={{ opacity: 0.85 }}
+          style={{ opacity: 0.9 }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(180deg, transparent 30%, ${theme.isLight ? 'rgba(255,255,255,0.8)' : 'rgba(10,16,32,0.85)'} 100%)`,
+            background: `linear-gradient(180deg, transparent 30%, ${theme.isLight ? 'rgba(255,255,255,0.85)' : 'rgba(10,16,32,0.88)'} 100%)`,
           }}
         />
         <div className="absolute top-3 left-3">
@@ -86,7 +101,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
       {/* Content */}
       <div className="p-5">
         <h3
-          className="text-lg font-heading font-bold mb-2 transition-colors duration-700"
+          className="text-lg font-heading font-bold mb-2 transition-colors duration-700 line-clamp-1"
           style={{ color: theme.textPrimary }}
         >
           {project.title}
@@ -127,7 +142,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
                   {item.label}
                 </div>
                 <p
-                  className="text-xs leading-relaxed"
+                  className="text-xs leading-relaxed line-clamp-4"
                   style={{ color: theme.textSecondary }}
                 >
                   {item.text}
@@ -139,7 +154,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
 
         {!isHovered && (
           <p
-            className="text-sm mt-1 transition-colors duration-700"
+            className="text-sm mt-1 transition-colors duration-700 line-clamp-1"
             style={{ color: theme.textMuted }}
           >
             {project.impact}
@@ -190,7 +205,7 @@ export default function FeaturedWork() {
           </h2>
         </motion.div>
 
-        <div className="mx-auto grid max-w-3xl gap-5 items-start" onMouseLeave={() => setHoveredCard(null)}>
+        <div className="mx-auto grid max-w-5xl md:grid-cols-2 gap-6 items-start" onMouseLeave={() => setHoveredCard(null)}>
           {cases.map((c, i) => (
             <ProjectCard
               key={c.title}

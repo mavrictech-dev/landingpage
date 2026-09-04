@@ -118,14 +118,15 @@ export default function Navbar() {
 
           <div className="hidden md:flex min-w-[190px] justify-end">
             <a
-              href="#contact"
+              href="https://mavrictec.mavricitas.com/"
+              target="_blank"
+              rel="noreferrer"
               className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-500 hover:shadow-lg hover:scale-105"
               style={{
                 background: theme.btnBg,
                 color: theme.btnText,
                 boxShadow: `0 0 20px ${theme.glow}`,
               }}
-              onClick={handleSectionNavigation('#contact')}
             >
               Agendar Consulta
             </a>
@@ -166,10 +167,12 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="#contact"
+                href="https://mavrictec.mavricitas.com/"
+                target="_blank"
+                rel="noreferrer"
                 className="mt-2 px-5 py-3 rounded-lg text-center font-medium"
                 style={{ background: theme.btnBg, color: theme.btnText }}
-                onClick={handleSectionNavigation('#contact')}
+                onClick={() => setMobileOpen(false)}
               >
                 Agendar Consulta
               </a>

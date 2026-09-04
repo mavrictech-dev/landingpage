@@ -118,8 +118,8 @@ export default function ProjectModal({ project, onClose }) {
 
           {/* 2. Image gallery — main + masonry thumbnails */}
           {images.length > 0 && (
-            <div className="grid md:grid-cols-[1fr_180px] gap-2.5 p-5 md:px-6">
-              {/* Main image — cropped tighter */}
+            <div className={`p-5 md:px-6 ${images.length > 1 ? 'grid md:grid-cols-[1fr_180px] gap-2.5' : ''}`}>
+              {/* Main image */}
               <div
                 className="rounded-xl overflow-hidden"
                 style={{
@@ -130,36 +130,37 @@ export default function ProjectModal({ project, onClose }) {
                   src={mainImg}
                   alt={project.title}
                   className="w-full h-full object-cover transition-all duration-500"
-                  style={{ aspectRatio: '16/9', objectPosition: 'center 30%' }}
+                  style={{ aspectRatio: '16/9', objectPosition: 'center top' }}
                 />
               </div>
 
-              {/* Masonry / brick thumbnails on right */}
-              <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
-                {images.map((img, i) => {
-                  const isActive = activeImg === i;
-                  // Alternate heights for masonry effect
-                  const heightClass = i % 2 === 0 ? 'md:h-24' : 'md:h-[72px]';
-                  return (
-                    <button
-                      key={i}
-                      onMouseEnter={() => setActiveImg(i)}
-                      onClick={() => setActiveImg(i)}
-                      className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300 ${heightClass}`}
-                      style={{
-                        borderColor: isActive ? theme.accent1 : 'transparent',
-                        opacity: isActive ? 1 : 0.55,
-                      }}
-                    >
-                      <img
-                        src={img}
-                        alt={`${project.title} ${i + 1}`}
-                        className="w-20 h-14 md:w-full md:h-full object-cover"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
+              {/* Masonry / brick thumbnails on right (only if multiple images) */}
+              {images.length > 1 && (
+                <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto">
+                  {images.map((img, i) => {
+                    const isActive = activeImg === i;
+                    const heightClass = i % 2 === 0 ? 'md:h-24' : 'md:h-[72px]';
+                    return (
+                      <button
+                        key={i}
+                        onMouseEnter={() => setActiveImg(i)}
+                        onClick={() => setActiveImg(i)}
+                        className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300 ${heightClass}`}
+                        style={{
+                          borderColor: isActive ? theme.accent1 : 'transparent',
+                          opacity: isActive ? 1 : 0.55,
+                        }}
+                      >
+                        <img
+                          src={img}
+                          alt={`${project.title} ${i + 1}`}
+                          className="w-20 h-14 md:w-full md:h-full object-cover"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
