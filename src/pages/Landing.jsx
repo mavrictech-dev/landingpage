@@ -18,7 +18,6 @@ const TeamSection = lazy(() => import("@/components/landing/TeamSection"));
 const FinalCTA = lazy(() => import("@/components/landing/FinalCTA"));
 const Footer = lazy(() => import("@/components/landing/Footer"));
 const SurveyEntryNotification = lazy(() => import("@/components/landing/SurveyEntryNotification"));
-const PromoModal = lazy(() => import("@/components/landing/PromoModal"));
 
 export default function Landing() {
   return (
@@ -46,7 +45,6 @@ export default function Landing() {
         <Suspense fallback={null}>
           <Footer />
           <SurveyEntryNotification />
-          <PromoModal />
         </Suspense>
 
         <WhatsAppFloatingButton />
