@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import SocialLinksPanel from './SocialLinksPanel';
 import bannerImage from '@/assets/banner-arquitectura-software-mavric.webp';
+import bannerImageMobile from '@/assets/banner-arquitectura-software-mavric-mobile.webp';
 
 export default function HeroSection() {
   const { theme } = useTheme();
@@ -12,7 +13,7 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto w-full">
         {/* Contenedor Banner inmersivo y altamente responsivo */}
         <div
-          className="relative rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-700 min-h-[540px] sm:min-h-[580px] lg:min-h-[640px] flex flex-col justify-end lg:justify-center lg:items-start"
+          className="relative rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-700 min-h-[560px] sm:min-h-[600px] lg:min-h-[640px] flex flex-col justify-end lg:justify-center lg:items-start"
           style={{
             borderColor: theme.cardBorder,
             boxShadow: theme.isLight
@@ -20,15 +21,23 @@ export default function HeroSection() {
               : `0 24px 70px rgba(0,0,0,0.5), 0 0 80px ${theme.glow}`,
           }}
         >
-          {/* Imagen banner de fondo: en móvil enfoca las caras y la pizarra arriba */}
+          {/* Banner panorámico para Desktop */}
           <img
             src={bannerImage}
             alt="Equipo Mavric Technologies - Arquitectura de Software"
-            className="absolute inset-0 w-full h-full object-cover object-[72%_8%] sm:object-[70%_15%] lg:object-center transition-transform duration-1000 scale-[1.01]"
+            className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center transition-transform duration-1000 scale-[1.01]"
             loading="eager"
           />
 
-          {/* Overlay para Desktop (pantallas grandes: degradado de izquierda a derecha) */}
+          {/* Banner vertical optimizado específicamente para Móvil y Tablet */}
+          <img
+            src={bannerImageMobile}
+            alt="Equipo Mavric Technologies - Arquitectura de Software"
+            className="block lg:hidden absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 scale-[1.01]"
+            loading="eager"
+          />
+
+          {/* Overlay para Desktop (degradado horizontal de izquierda a derecha) */}
           <div
             className="hidden lg:block absolute inset-0 pointer-events-none transition-all duration-700"
             style={{
@@ -38,15 +47,13 @@ export default function HeroSection() {
             }}
           />
 
-          {/* Overlay para Móvil y Tablet (degradado vertical de abajo hacia arriba):
-              El tercio superior queda transparente y nítido para ver al equipo,
-              y la parte inferior proporciona base sólida y legible para el texto */}
+          {/* Overlay para Móvil y Tablet (degradado vertical progresivo de abajo hacia arriba) */}
           <div
             className="block lg:hidden absolute inset-0 pointer-events-none transition-all duration-700"
             style={{
               background: theme.isLight
-                ? 'linear-gradient(180deg, transparent 0%, rgba(248,250,252,0.08) 22%, rgba(248,250,252,0.78) 46%, rgba(248,250,252,0.96) 68%, rgba(248,250,252,1) 100%)'
-                : 'linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.08) 22%, rgba(7,11,22,0.78) 46%, rgba(7,11,22,0.96) 68%, rgba(7,11,22,1) 100%)',
+                ? 'linear-gradient(180deg, transparent 0%, rgba(248,250,252,0.06) 24%, rgba(248,250,252,0.76) 48%, rgba(248,250,252,0.96) 68%, rgba(248,250,252,1) 100%)'
+                : 'linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.06) 24%, rgba(7,11,22,0.76) 48%, rgba(7,11,22,0.96) 68%, rgba(7,11,22,1) 100%)',
             }}
           />
 
