@@ -21,21 +21,6 @@ const cases = [
     websiteUrl: 'https://mavicca-landing1.netlify.app',
     color: '#0F766E',
   },
-  {
-    tag: 'SAAS & CHATBOT IA',
-    title: 'Mavricitas — Agendamiento Inteligente',
-    challenge: 'Pérdida continua de prospectos por tiempos de espera lentos en canales manuales, desorganización en agendas y alta tasa de ausencias (no-shows) en citas programadas fuera de horario.',
-    solution: 'Implementamos un asistente conversacional inteligente 24/7 sincronizado en tiempo real con Google Calendar, capaz de guiar la selección de sedes/servicios y disparar confirmaciones y alertas inmediatas vía WhatsApp y correo.',
-    outcome: 'Reservas completadas en menos de 1 minuto sin intervención humana, sincronización automática de agendas sin solapamientos y disminución drástica del ausentismo mediante notificaciones automatizadas.',
-    impact: 'Chatbot con IA, Google Calendar y Alertas WhatsApp / Email',
-    fullDescription: 'Mavricitas es una plataforma moderna de reservas online impulsada por un asistente conversacional inteligente diseñado para empresas de servicios. Los usuarios pueden interactuar de forma intuitiva, consultar disponibilidad en tiempo real según la sede o servicio requerido y confirmar citas en cuestión de segundos sin llamadas ni esperas. El sistema se sincroniza bidireccionalmente con Google Calendar para mantener las agendas del equipo al día y despacha recordatorios automáticos por WhatsApp y correo electrónico, eliminando fricciones operativas y elevando la conversión de reservas.',
-    techStack: ['Next.js', 'Google Calendar API', 'WhatsApp Business API', 'Node.js', 'Tailwind CSS'],
-    images: [
-      '/mavricitas-landing.png',
-    ],
-    websiteUrl: 'https://mavrictec.mavricitas.com/',
-    color: '#2563EB',
-  },
 ];
 
 function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHoverEnd }) {
@@ -65,7 +50,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
       }}
     >
       {/* Cover image area */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 sm:h-56 overflow-hidden">
         <img
           src={project.images?.[0]}
           alt={project.title}
@@ -99,9 +84,9 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
       </div>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-5 sm:p-6">
         <h3
-          className="text-lg font-heading font-bold mb-2 transition-colors duration-700 line-clamp-1"
+          className="text-lg sm:text-xl font-heading font-bold mb-2 transition-colors duration-700 line-clamp-1"
           style={{ color: theme.textPrimary }}
         >
           {project.title}
@@ -112,7 +97,7 @@ function ProjectCard({ project, index, onClick, isHovered, onHoverStart, onHover
             href={project.websiteUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-mono tracking-wider uppercase transition-opacity duration-300 hover:opacity-80"
+            className="inline-flex items-center gap-2 text-xs font-mono tracking-wider uppercase transition-opacity duration-300 hover:opacity-80 mb-2"
             style={{ color: project.color }}
             onClick={(event) => event.stopPropagation()}
           >
@@ -205,7 +190,10 @@ export default function FeaturedWork() {
           </h2>
         </motion.div>
 
-        <div className="mx-auto grid max-w-5xl md:grid-cols-2 gap-6 items-start" onMouseLeave={() => setHoveredCard(null)}>
+        <div
+          className={`mx-auto ${cases.length === 1 ? 'max-w-2xl' : 'grid max-w-5xl md:grid-cols-2'} gap-6 items-start`}
+          onMouseLeave={() => setHoveredCard(null)}
+        >
           {cases.map((c, i) => (
             <ProjectCard
               key={c.title}

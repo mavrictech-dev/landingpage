@@ -21,11 +21,11 @@ export default function HeroSection() {
               : `0 24px 70px rgba(0,0,0,0.5), 0 0 80px ${theme.glow}`,
           }}
         >
-          {/* Banner panorámico para Desktop */}
+          {/* Banner panorámico para Desktop: alineado a la derecha sin desvanecido */}
           <img
             src={bannerImage}
             alt="Equipo Mavric Technologies - Arquitectura de Software"
-            className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center transition-transform duration-1000 scale-[1.01]"
+            className="hidden lg:block absolute inset-0 w-full h-full object-cover object-right transition-transform duration-1000 scale-[1.01]"
             loading="eager"
           />
 
@@ -37,36 +37,16 @@ export default function HeroSection() {
             loading="eager"
           />
 
-          {/* Overlay para Desktop (degradado horizontal de izquierda a derecha) */}
-          <div
-            className="hidden lg:block absolute inset-0 pointer-events-none transition-all duration-700"
-            style={{
-              background: theme.isLight
-                ? 'linear-gradient(90deg, rgba(248,250,252,0.97) 0%, rgba(248,250,252,0.92) 36%, rgba(248,250,252,0.65) 54%, rgba(248,250,252,0.15) 75%, transparent 100%)'
-                : 'linear-gradient(90deg, rgba(7,11,22,0.97) 0%, rgba(7,11,22,0.92) 38%, rgba(7,11,22,0.68) 56%, rgba(7,11,22,0.18) 78%, transparent 100%)',
-            }}
-          />
-
-          {/* Overlay para Móvil y Tablet (degradado vertical progresivo de abajo hacia arriba) */}
-          <div
-            className="block lg:hidden absolute inset-0 pointer-events-none transition-all duration-700"
-            style={{
-              background: theme.isLight
-                ? 'linear-gradient(180deg, transparent 0%, rgba(248,250,252,0.06) 24%, rgba(248,250,252,0.76) 48%, rgba(248,250,252,0.96) 68%, rgba(248,250,252,1) 100%)'
-                : 'linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.06) 24%, rgba(7,11,22,0.76) 48%, rgba(7,11,22,0.96) 68%, rgba(7,11,22,1) 100%)',
-            }}
-          />
-
           {/* Contenido por encima del banner */}
           <div className="relative z-10 w-full max-w-2xl px-5 pt-36 pb-6 sm:px-10 sm:pt-40 sm:pb-10 lg:px-16 lg:py-16">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border mb-3 sm:mb-5 backdrop-blur-md transition-colors duration-700"
+              className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border mb-3 sm:mb-5 backdrop-blur-md transition-colors duration-700 shadow-sm"
               style={{
                 borderColor: `${theme.accent1}40`,
-                background: theme.isLight ? 'rgba(255,255,255,0.85)' : `${theme.accent1}20`,
+                background: theme.isLight ? 'rgba(255,255,255,0.9)' : `${theme.accent1}20`,
               }}
             >
               <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse" style={{ background: theme.accent1 }} />
@@ -79,7 +59,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.25 }}
-              className="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold leading-[1.18] sm:leading-[1.12] mb-4 sm:mb-6 transition-colors duration-700 drop-shadow-sm"
+              className="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold leading-[1.18] sm:leading-[1.12] mb-4 sm:mb-6 transition-colors duration-700 drop-shadow-md"
               style={{ color: theme.textPrimary }}
             >
               Innovación tecnológica para escalar tu negocio con{' '}
@@ -98,7 +78,7 @@ export default function HeroSection() {
                 href="https://mavrictec.mavricitas.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-xl text-sm sm:text-base font-medium transition-all duration-300 hover:scale-105 shadow-md"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-xl text-sm sm:text-base font-medium transition-all duration-300 hover:scale-105 shadow-lg"
                 style={{
                   background: theme.btnBg,
                   color: theme.btnText,
@@ -108,9 +88,9 @@ export default function HeroSection() {
                 Agendar Consulta
               </a>
               <div
-                className="rounded-xl p-1 backdrop-blur-md border transition-colors duration-700"
+                className="rounded-xl p-1 backdrop-blur-md border transition-colors duration-700 shadow-sm"
                 style={{
-                  background: theme.isLight ? 'rgba(255,255,255,0.75)' : 'rgba(15,23,42,0.65)',
+                  background: theme.isLight ? 'rgba(255,255,255,0.85)' : 'rgba(15,23,42,0.75)',
                   borderColor: theme.cardBorder,
                 }}
               >
@@ -130,9 +110,9 @@ export default function HeroSection() {
               ].map((m, i) => (
                 <div
                   key={i}
-                  className="rounded-xl sm:rounded-2xl px-3.5 py-2 sm:px-5 sm:py-3 border backdrop-blur-md transition-all duration-700"
+                  className="rounded-xl sm:rounded-2xl px-3.5 py-2 sm:px-5 sm:py-3 border backdrop-blur-md transition-all duration-700 shadow-sm"
                   style={{
-                    background: theme.isLight ? 'rgba(255,255,255,0.8)' : 'rgba(15,23,42,0.65)',
+                    background: theme.isLight ? 'rgba(255,255,255,0.88)' : 'rgba(15,23,42,0.75)',
                     borderColor: theme.cardBorder,
                   }}
                 >

@@ -61,23 +61,24 @@ export default function PromoFloatingBanner() {
           animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
           exit={{ opacity: 0, y: 20, scale: 0.9, pointerEvents: 'none' }}
           transition={{ duration: 0.4, type: "spring", bounce: 0.25 }}
-          className="fixed bottom-4 md:bottom-6 left-4 md:left-6 z-[100]"
+          className="fixed bottom-3 left-3 sm:bottom-4 sm:left-4 md:bottom-6 md:left-6 z-40"
         >
           {!isExpanded ? (
-            /* Componente Minimizado (Pastilla flotante) */
+            /* Componente Minimizado (Pastilla flotante compacta en móvil, extendida en sm+) */
             <motion.div
               layoutId="promo-banner-container"
               onClick={() => setIsExpanded(true)}
-              className={`group flex items-center gap-3 p-1.5 pr-4 pl-3 rounded-full border shadow-xl cursor-pointer backdrop-blur-xl transition-all duration-300 hover:scale-[1.03]
+              className={`group flex items-center gap-1.5 sm:gap-3 p-1.5 pr-2.5 sm:pr-4 pl-2 sm:pl-3 rounded-full border shadow-xl cursor-pointer backdrop-blur-xl transition-all duration-300 hover:scale-[1.03]
                 ${isDark 
                   ? 'bg-slate-950/95 border-slate-700 shadow-black/50 text-white hover:border-slate-500' 
                   : 'bg-white/95 border-slate-200 shadow-black/15 text-slate-900 hover:border-slate-300'}`}
             >
-              <div className={`${headerColor} p-2 rounded-full flex items-center justify-center text-white shadow-md transition-transform duration-300 group-hover:rotate-12`}>
-                <Rocket className="w-4 h-4 animate-pulse" />
+              <div className={`${headerColor} p-1.5 sm:p-2 rounded-full flex items-center justify-center text-white shadow-md transition-transform duration-300 group-hover:rotate-12 shrink-0`}>
+                <Rocket className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-pulse" />
               </div>
 
-              <div className="flex flex-col">
+              {/* Texto expandido en pantallas sm o mayores para mantener el móvil ultralimpio */}
+              <div className="hidden sm:flex flex-col">
                 <span className="font-bold text-xs tracking-wide uppercase leading-tight">
                   Promoción Especial
                 </span>
@@ -86,14 +87,14 @@ export default function PromoFloatingBanner() {
                 </span>
               </div>
 
-              <div className="ml-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              <div className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
                 50% OFF
               </div>
 
               <button 
                 onClick={handleDismiss}
                 aria-label="Cerrar promoción"
-                className="ml-1 text-slate-400 hover:text-slate-200 transition-colors p-1 rounded-full hover:bg-slate-800/50"
+                className="text-slate-400 hover:text-slate-200 transition-colors p-1 rounded-full hover:bg-slate-800/50"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
